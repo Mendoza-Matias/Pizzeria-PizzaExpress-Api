@@ -11,6 +11,6 @@ public interface ProveedorService {
 
     List<ProveedorDto> listarTodosLosProveedores ();
     ProveedorDto crearUnProveedor (CrearProveedorDto cliente);
-    ProveedorDto modificarClave(String correo,String clave);
-    ProveedorDto eliminarProveedor (String correo , String clave);
+    ProveedorDto modificarClave(String email,String clave);
+    ProveedorDto eliminarProveedor (String email , String clave);
 }

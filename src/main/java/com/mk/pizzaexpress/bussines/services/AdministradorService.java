@@ -11,7 +11,7 @@ public interface AdministradorService {
 
     List <AdministradorDto> listarTodosLosAdministradores();
     AdministradorDto crearAdministrador(CrearAdministradorDto administrador);
-    AdministradorDto modificarClave(String correo , String clave);
+    AdministradorDto modificarClave(String email , String clave);
 
-    AdministradorDto eliminarCliente(String correo,String clave);
+    AdministradorDto eliminarAdministrador(String email,String clave);
 }

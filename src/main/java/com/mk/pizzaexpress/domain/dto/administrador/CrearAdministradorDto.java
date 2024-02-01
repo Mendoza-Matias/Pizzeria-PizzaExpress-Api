@@ -12,7 +12,7 @@ public class CrearAdministradorDto {
 
     String nombre;
 
-    String correo;
+    String email;
 
     String clave;
 

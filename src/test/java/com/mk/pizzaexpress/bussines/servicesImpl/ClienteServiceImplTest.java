@@ -1,5 +1,6 @@
 package com.mk.pizzaexpress.bussines.servicesImpl;
 
+import ch.qos.logback.core.net.server.Client;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapper;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapperImpl;
 import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
@@ -40,6 +41,7 @@ class ClienteServiceImplTest {
         clienteDto = ClienteDto.builder()
                 .id(2)
                 .nombre("juan")
+                .email("juan@gmail.com")
                 .telefono(1140802182)
                 .direccion("mi casa 123")
                 .localidad("san miguel")
@@ -80,6 +82,7 @@ class ClienteServiceImplTest {
 
     @Test
     void modificarClave() {
+
     }
 
     @Test
@@ -92,6 +95,7 @@ class ClienteServiceImplTest {
 
     @Test
     void eliminarCliente() {
+
 
     }
 }

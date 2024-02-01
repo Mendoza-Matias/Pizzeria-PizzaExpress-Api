@@ -7,10 +7,10 @@ import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
 public interface ClienteService {
 
         ClienteDto crearCliente(CrearClienteDto cliente);
-        ClienteDto modificarClave(String correo , String claveNueva);
-        ClienteDto modificarDireccion(String direccion , String direccionNueva);
-        ClienteDto modificarLocalidad(String localidad , String localidadNueva );
-        ClienteDto eliminarCliente(String correo , String clave);
+        ClienteDto modificarClave(String email , String claveNueva);
+        ClienteDto modificarDireccion(int id, String direccionNueva);
+        ClienteDto modificarLocalidad(int id , String localidadNueva );
+        ClienteDto eliminarCliente(String email , String clave);
 
 
 

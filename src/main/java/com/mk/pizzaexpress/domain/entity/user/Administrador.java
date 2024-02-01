@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "administradores")
 public class Administrador extends Usuario{

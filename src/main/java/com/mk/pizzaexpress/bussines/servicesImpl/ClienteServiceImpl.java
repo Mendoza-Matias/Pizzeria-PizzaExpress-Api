@@ -7,9 +7,12 @@ import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
 import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import com.mk.pizzaexpress.domain.entity.user.Cliente;
+import com.mk.pizzaexpress.domain.exceptions.ClienteException;
 import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
@@ -22,6 +25,10 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public ClienteDto crearCliente(CrearClienteDto clienteDto) {
+
+        if(clienteRepository.existEmail(clienteDto.getEmail())){
+            throw new ClienteException("Este email ya esta registrado");
+        }
 
         Cliente cliente = clienteMapper.aClienteDeCrearClienteDto(clienteDto);
         cliente.setNombre(clienteDto.getNombre());
@@ -36,22 +43,33 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public ClienteDto modificarClave(String correo, String claveNueva) {
+    public ClienteDto modificarClave(String email, String claveNueva) {
+       Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(()-> new ClienteException("Email no encontrado"));
+       cliente.setClave(claveNueva);
+       return clienteMapper.aClienteDto(clienteRepository.save(cliente));
+    }
+
+    @Override
+    public ClienteDto modificarDireccion(int id, String direccionNueva) {
         return null;
     }
 
     @Override
-    public ClienteDto modificarDireccion(String direccion, String direccionNueva) {
+    public ClienteDto modificarLocalidad(int id, String localidadNueva) {
         return null;
     }
 
     @Override
-    public ClienteDto modificarLocalidad(String localidad, String localidadNueva) {
-        return null;
-    }
+    public ClienteDto eliminarCliente(String email, String clave) {
 
-    @Override
-    public ClienteDto eliminarCliente(String correo, String clave) {
-        return null;
+        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(()->new ClienteException("Email no encontrado"));
+
+        if(clienteRepository.existClave(clave)){
+            throw new ClienteException("Clave no encontrada");
+        }
+
+        clienteRepository.deleteById(cliente.getId());
+
+        return clienteMapper.aClienteDto(cliente);
     }
 }

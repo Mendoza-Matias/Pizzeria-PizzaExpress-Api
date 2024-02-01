@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface ClienteMapper {
 
+    Cliente aCliente(ClienteDto clienteDto);
     ClienteDto aClienteDto(Cliente cliente);
-
     Cliente aClienteDeCrearClienteDto(CrearClienteDto crearClienteDto);
 
 }

@@ -2,8 +2,8 @@ package com.mk.pizzaexpress.domain.entity.user;
 
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @MappedSuperclass

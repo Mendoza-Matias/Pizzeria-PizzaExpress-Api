@@ -5,8 +5,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "proveedores")
 public class Proveedor extends Usuario{
