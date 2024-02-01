@@ -14,4 +14,8 @@ public interface AdministradorService {
     AdministradorDto modificarClave(String email , String clave);
 
     AdministradorDto eliminarAdministrador(String email,String clave);
+
+    boolean existeAdministradorConEmail(String email);
+
+    boolean existeAdministradorConClave(String clave);
 }

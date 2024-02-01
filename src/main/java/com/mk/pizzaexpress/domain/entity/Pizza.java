@@ -8,6 +8,9 @@ import lombok.*;
 import java.util.List;
 
 
+@Builder
+@Data
+@AllArgsConstructor
 @Entity
 @Table(name="pizzas")
 public class Pizza extends Producto{
@@ -19,7 +22,7 @@ public class Pizza extends Producto{
     private Medida medida;
 
     @ManyToMany(mappedBy = "pizzas")
-    private List<Pedido> pedidos;
+    private List <Pedido> pedidos;
 
     @JoinColumn(name = "receta_id")
     @OneToOne(fetch = FetchType.LAZY)

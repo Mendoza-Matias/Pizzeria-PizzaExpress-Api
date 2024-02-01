@@ -12,17 +12,21 @@ public interface PedidoService {
 
     List<PedidoDto> listarTodosLosPedidos();
 
-    PedidoDto listarPedidoPorNumeroDePedido(int numeroDePedido);
+    PedidoDto obtenerPedidoPorNumeroDePedido(int numeroDePedido);
 
-    PedidoDto crearUnPedido(int idUsuario , CrearPedidoDto pedido);
+    PedidoDto crearUnPedido(int usuarioId , CrearPedidoDto crearPedidoDto , List<Integer> pizzasIds,List<Integer> bebidaIds);
 
     void restarStockDeIngredientesParaPizza (PizzaDto pizza);
 
     void restarStockDeBebidas (BebidaDto bebida);
 
-    PedidoDto editarUnPedido (int numeroDePedido, CrearPedidoDto pedido);
+    PedidoDto editarUnPedido (int numeroDePedido,int clienteId, CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidaIds);
 
     PedidoDto modificarEstadoDePedido(int numeroPedido);
 
     PedidoDto eliminarUnPedidoPorNumeroDePedido (int numeroDePedido);
+
+
+
+
 }

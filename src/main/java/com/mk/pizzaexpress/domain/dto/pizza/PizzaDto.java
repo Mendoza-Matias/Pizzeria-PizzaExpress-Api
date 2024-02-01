@@ -12,8 +12,12 @@ import lombok.Data;
 public class PizzaDto {
 
     String nombre;
+
     float precio;
+
     Medida medida;
 
     RecetaDto receta;
+
+    String urlImagen;
 }

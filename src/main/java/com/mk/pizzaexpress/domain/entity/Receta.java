@@ -17,6 +17,9 @@ public class Receta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(name = "nombre")
+    private String nombre;
+
     @OneToOne(mappedBy = "receta")
     private Pizza pizza;
 

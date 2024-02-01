@@ -11,7 +11,9 @@ public interface RecetaService {
 
 
     RecetaDto listarUnaRecetaPorId(int id);
-    RecetaDto crearReceta(CrearRecetaDto receta);
-    RecetaDto editarReceta(int id,CrearRecetaDto receta);
+    RecetaDto buscarRecetaPorPizza(int id);
+    RecetaDto crearReceta(CrearRecetaDto crearRecetaDto, int idPizza , List<Integer> ingredientesIds);
+    RecetaDto editarReceta(int id,CrearRecetaDto crearRecetaDto,int idPizza,List<Integer> ingredienteIds);
     RecetaDto eliminarUnaReceta(int id);
+    boolean existeRecetaConNombre(String nombre);
 }

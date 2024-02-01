@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "bebidas")
 public class Bebida extends Producto{

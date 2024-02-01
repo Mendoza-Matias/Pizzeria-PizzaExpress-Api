@@ -8,8 +8,12 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class BebidaDto {
+
     String nombre;
+
     float precio;
+
     String marca;
+
     float litros;
 }

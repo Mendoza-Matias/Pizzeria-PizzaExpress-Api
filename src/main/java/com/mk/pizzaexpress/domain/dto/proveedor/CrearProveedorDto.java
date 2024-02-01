@@ -10,6 +10,6 @@ import lombok.Data;
 public class CrearProveedorDto {
 
     String nombre;
-    String correo;
+    String email;
     String clave;
 }

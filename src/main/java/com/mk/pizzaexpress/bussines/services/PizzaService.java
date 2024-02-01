@@ -10,7 +10,13 @@ public interface PizzaService {
 
     List<PizzaDto> listarTodasLasPizzas();
 
-    PizzaDto crearUnaPizza(CrearPizzaDto pizza);
+    PizzaDto buscarPizzaPorNombre(String nombre);
+
+    PizzaDto crearUnaPizza(CrearPizzaDto pizza , int idReceta);
+
+    PizzaDto modificarPrecioDePizza(int id , float precio);
 
     PizzaDto eliminarUnaPizza(int id);
+
+    boolean existePizzaConNombre(String nombre);
 }

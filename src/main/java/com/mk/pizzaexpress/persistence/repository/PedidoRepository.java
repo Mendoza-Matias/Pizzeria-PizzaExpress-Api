@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido,Integer> {
 
-
     Optional<Pedido> findByNumeroDePedido(int numeroDePedido);
+
+
+
 }

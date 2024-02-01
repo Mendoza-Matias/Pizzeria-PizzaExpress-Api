@@ -5,7 +5,9 @@ import lombok.*;
 
 import java.util.List;
 
-
+@Data
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "ingredientes")
 public class Ingrediente {

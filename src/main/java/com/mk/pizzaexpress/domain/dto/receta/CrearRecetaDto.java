@@ -1,5 +1,6 @@
 package com.mk.pizzaexpress.domain.dto.receta;
 
+import com.mk.pizzaexpress.domain.entity.Pizza;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CrearRecetaDto {
 
-    int idPizza;
+    String nombre;
+
+    Pizza pizza;
 
     List<Integer> idIngredientes;
 }

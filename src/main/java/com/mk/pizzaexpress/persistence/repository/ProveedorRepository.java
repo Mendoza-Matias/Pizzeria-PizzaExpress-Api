@@ -2,11 +2,13 @@ package com.mk.pizzaexpress.persistence.repository;
 
 import com.mk.pizzaexpress.domain.entity.user.Proveedor;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ProveedorRepository extends JpaRepository<Proveedor,Integer> {
+import java.util.Optional;
 
-    boolean existClave(String clave);
-    boolean existEmail(String email);
+public interface ProveedorRepository extends JpaRepository<Proveedor,Integer>{
+
+    Optional<Proveedor> findByEmail(String email);
+    boolean existsByEmail(String email);
+
+    boolean existsByClave(String clave);
 }

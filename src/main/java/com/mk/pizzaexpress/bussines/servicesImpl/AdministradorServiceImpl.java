@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class AdministradorServiceImpl implements AdministradorService {
 
-
     @Autowired
     AdministradorRepository administradorRepository;
 
@@ -33,7 +32,7 @@ public class AdministradorServiceImpl implements AdministradorService {
     @Override
     public AdministradorDto crearAdministrador(CrearAdministradorDto crearAdministradorDto) {
 
-        if(administradorRepository.existEmail(crearAdministradorDto.getEmail())){
+        if(existeAdministradorConEmail(crearAdministradorDto.getEmail())){
             throw new AdministradorException("Este email ya esta registrado");
         }
 
@@ -49,7 +48,9 @@ public class AdministradorServiceImpl implements AdministradorService {
 
     @Override
     public AdministradorDto modificarClave(String email, String clave) {
-        return null;
+        Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new AdministradorException("Email no encontrado"));
+        administrador.setClave(clave);
+        return administradorMapper.toDto(administradorRepository.save(administrador));
     }
 
     @Override
@@ -57,12 +58,22 @@ public class AdministradorServiceImpl implements AdministradorService {
 
         Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new AdministradorException("Email no encontrado"));
 
-        if(administradorRepository.existClave(clave)){
+        if(existeAdministradorConClave(clave)){
             throw new AdministradorException("Clave no encontrada");
         }
 
         administradorRepository.deleteById(administrador.getId());
 
         return administradorMapper.toDto(administrador);
+    }
+
+    @Override
+    public boolean existeAdministradorConEmail(String email) {
+        return administradorRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existeAdministradorConClave(String clave) {
+        return administradorRepository.existsByClave(clave);
     }
 }

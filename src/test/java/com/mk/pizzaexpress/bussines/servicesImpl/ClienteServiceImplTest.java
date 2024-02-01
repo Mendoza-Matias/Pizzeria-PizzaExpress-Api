@@ -1,6 +1,5 @@
 package com.mk.pizzaexpress.bussines.servicesImpl;
 
-import ch.qos.logback.core.net.server.Client;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapper;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapperImpl;
 import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
@@ -15,6 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +38,7 @@ class ClienteServiceImplTest {
     ClienteMapper clienteMapper = new ClienteMapperImpl();
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
 
         clienteDto = ClienteDto.builder()
                 .id(2)
@@ -55,6 +57,13 @@ class ClienteServiceImplTest {
                 .direccion("calle falsa 123")
                 .localidad("moreno")
                 .build();
+    }
+
+    @Test
+    void buscarClientePorEmail(){
+
+
+
     }
 
     @Test

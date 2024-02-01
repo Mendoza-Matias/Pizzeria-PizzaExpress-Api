@@ -10,6 +10,8 @@ import lombok.Data;
 public class BebidaPorPrecioDto {
 
     String nombre;
+
     String marca;
+
     float litros;
 }

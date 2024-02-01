@@ -12,8 +12,6 @@ import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class ClienteServiceImpl implements ClienteService{
 
@@ -26,7 +24,7 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public ClienteDto crearCliente(CrearClienteDto clienteDto) {
 
-        if(clienteRepository.existEmail(clienteDto.getEmail())){
+        if(existeUsuarioConEmail(clienteDto.getEmail())){
             throw new ClienteException("Este email ya esta registrado");
         }
 
@@ -43,6 +41,12 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public ClienteDto buscarClientePorEmail(String email) {
+        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(()-> new ClienteException("Email no encontrado"));
+        System.out.println(cliente.getEmail());
+        return clienteMapper.aClienteDto(cliente);
+    }
+    @Override
     public ClienteDto modificarClave(String email, String claveNueva) {
        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(()-> new ClienteException("Email no encontrado"));
        cliente.setClave(claveNueva);
@@ -51,12 +55,15 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public ClienteDto modificarDireccion(int id, String direccionNueva) {
-        return null;
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new ClienteException("El cliente no existe"));
+        cliente.setDireccion(direccionNueva);
+        return clienteMapper.aClienteDto(clienteRepository.save(cliente));
     }
 
     @Override
     public ClienteDto modificarLocalidad(int id, String localidadNueva) {
-        return null;
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new ClienteException("El cliente no existe"));
+        return clienteMapper.aClienteDto(cliente);
     }
 
     @Override
@@ -64,12 +71,22 @@ public class ClienteServiceImpl implements ClienteService{
 
         Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(()->new ClienteException("Email no encontrado"));
 
-        if(clienteRepository.existClave(clave)){
+        if(existeUsuarioConClave(clave)){
             throw new ClienteException("Clave no encontrada");
         }
 
         clienteRepository.deleteById(cliente.getId());
 
         return clienteMapper.aClienteDto(cliente);
+    }
+
+    @Override
+    public boolean existeUsuarioConEmail(String email) {
+        return clienteRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existeUsuarioConClave(String clave) {
+        return clienteRepository.existsByClave(clave);
     }
 }
