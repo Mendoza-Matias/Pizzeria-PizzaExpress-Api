@@ -7,12 +7,13 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name="pedidos")
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pedido {
 
     @Id

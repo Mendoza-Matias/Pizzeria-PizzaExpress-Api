@@ -11,8 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface RecetaRepository extends JpaRepository<Receta,Integer> {
-
-
     Optional <Receta> findByPizza (Pizza pizza);
 
     boolean existsByNombre(String nombre);

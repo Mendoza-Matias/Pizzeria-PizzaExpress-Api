@@ -10,11 +10,13 @@ import com.mk.pizzaexpress.domain.exceptions.IngredienteException;
 import com.mk.pizzaexpress.persistence.repository.IngredienteRepository;
 import com.mk.pizzaexpress.persistence.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class IngredienteImpl implements IngredienteService {
 
     @Autowired

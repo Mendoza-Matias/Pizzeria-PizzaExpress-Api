@@ -13,11 +13,13 @@ import com.mk.pizzaexpress.domain.exceptions.ClienteException;
 import com.mk.pizzaexpress.domain.exceptions.PedidoException;
 import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import com.mk.pizzaexpress.persistence.repository.PedidoRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Random;
 
+@Setter
 public class PedidoServiceImpl implements PedidoService {
 
     @Autowired

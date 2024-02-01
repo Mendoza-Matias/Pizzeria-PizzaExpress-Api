@@ -5,11 +5,12 @@ import lombok.*;
 
 import java.util.List;
 
+@Entity
+@Table(name = "ingredientes")
+
 @Data
 @Builder
 @AllArgsConstructor
-@Entity
-@Table(name = "ingredientes")
 public class Ingrediente {
 
     @Id

@@ -8,9 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PizzaRepository extends JpaRepository<Pizza,Integer> {
-
     Pizza findByNombre(String nombre);
-
     boolean existsByNombre(String nombre);
 
 }

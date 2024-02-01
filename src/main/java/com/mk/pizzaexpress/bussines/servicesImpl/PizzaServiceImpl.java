@@ -11,9 +11,12 @@ import com.mk.pizzaexpress.domain.exceptions.RecetaException;
 import com.mk.pizzaexpress.persistence.repository.PizzaRepository;
 import com.mk.pizzaexpress.persistence.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class PizzaServiceImpl implements PizzaService {
     @Autowired
     PizzaRepository pizzaRepository;

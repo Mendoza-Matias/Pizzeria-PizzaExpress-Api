@@ -9,6 +9,5 @@ public interface ProveedorRepository extends JpaRepository<Proveedor,Integer>{
 
     Optional<Proveedor> findByEmail(String email);
     boolean existsByEmail(String email);
-
     boolean existsByClave(String clave);
 }

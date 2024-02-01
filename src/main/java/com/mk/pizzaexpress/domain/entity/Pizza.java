@@ -7,12 +7,13 @@ import lombok.*;
 
 import java.util.List;
 
-
-@Builder
-@Data
-@AllArgsConstructor
 @Entity
 @Table(name="pizzas")
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class Pizza extends Producto{
 
     @Column(name = "tipo_pizza")

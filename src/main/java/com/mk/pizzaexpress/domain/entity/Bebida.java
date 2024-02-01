@@ -6,11 +6,12 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "bebidas")
+
+@Data
+@Builder
+@AllArgsConstructor
 public class Bebida extends Producto{
 
     @Column(name = "marca")

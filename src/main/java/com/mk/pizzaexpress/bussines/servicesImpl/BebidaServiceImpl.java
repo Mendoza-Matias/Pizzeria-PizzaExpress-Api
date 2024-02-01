@@ -8,9 +8,11 @@ import com.mk.pizzaexpress.domain.entity.Bebida;
 import com.mk.pizzaexpress.domain.exceptions.BebidaException;
 import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BebidaServiceImpl implements BebidaService {
 
     @Autowired

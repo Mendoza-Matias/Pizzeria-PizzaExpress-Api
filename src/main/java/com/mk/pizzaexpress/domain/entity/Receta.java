@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "recetas")
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Receta {
 
     @Id
