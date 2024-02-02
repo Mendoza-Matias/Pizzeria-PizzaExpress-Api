@@ -1,5 +1,6 @@
 package com.mk.pizzaexpress.domain.dto.bebida;
 
+import com.mk.pizzaexpress.domain.entity.enums.TipoDeBebida;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class BebidaDto {
 
-    String nombre;
+    String marca;
+
+    TipoDeBebida tipoDeBebida;
 
     float precio;
-
-    String marca;
 
     float litros;
 }

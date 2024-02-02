@@ -1,9 +1,11 @@
 package com.mk.pizzaexpress.bussines.servicesImpl;
 
 import com.mk.pizzaexpress.bussines.mapper.implMapper.IngredienteMapper;
+import com.mk.pizzaexpress.bussines.mapper.implMapper.RecetaMapper;
 import com.mk.pizzaexpress.bussines.services.IngredienteService;
 import com.mk.pizzaexpress.domain.dto.ingrediente.CrearIngredienteDto;
 import com.mk.pizzaexpress.domain.dto.ingrediente.IngredienteDto;
+import com.mk.pizzaexpress.domain.dto.receta.RecetaDto;
 import com.mk.pizzaexpress.domain.entity.Ingrediente;
 import com.mk.pizzaexpress.domain.entity.Receta;
 import com.mk.pizzaexpress.domain.exceptions.IngredienteException;
@@ -12,6 +14,7 @@ import com.mk.pizzaexpress.persistence.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,23 +46,7 @@ public class IngredienteImpl implements IngredienteService {
         Ingrediente ingrediente = ingredienteMapper.aIngredienteDeCrearIngredienteDto(crearIngredienteDto);
         ingrediente.setNombre(crearIngredienteDto.getNombre());
         ingrediente.setStock(crearIngredienteDto.getStock());
-        //List<Receta> recetas =
-        //ingrediente.setRecetas(recetas);
-
-        return null;
-    }
-
-    @Override
-    public IngredienteDto editarIngrediente(int id, CrearIngredienteDto crearIngredienteDto,List<Integer> recetasIds) {
-        return null;
-    }
-
-    @Override
-    public IngredienteDto elimiarIngrediente(int id) {
-
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(()-> new IngredienteException("Ingrediente no encontrado"));
-
-        ingredienteRepository.deleteById(id);
+        ingrediente.setRecetas(obtenerRecetasQueLlevanElIngrediente(recetasIds));
 
         return ingredienteMapper.toDto(ingrediente);
     }
@@ -76,5 +63,20 @@ public class IngredienteImpl implements IngredienteService {
     @Override
     public boolean existeElIngredienteConNombre(String nombre) {
         return ingredienteRepository.existsByNombre(nombre);
+    }
+
+    @Override
+    public List<Receta> obtenerRecetasQueLlevanElIngrediente(List <Integer> recetasIds) {
+        List<Receta> recetas = new ArrayList<>();
+
+        for (Integer recetaId:recetasIds){
+            Optional<Receta> recetaOptional = recetaRepository.findById(recetaId);
+
+            if(recetaOptional.isPresent()){
+                Receta receta = recetaOptional.get();
+                recetas.add(receta);
+            }
+        }
+        return recetas;
     }
 }

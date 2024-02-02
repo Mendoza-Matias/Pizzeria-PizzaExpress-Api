@@ -1,5 +1,6 @@
 package com.mk.pizzaexpress.domain.dto.ingrediente;
 
+import com.mk.pizzaexpress.domain.dto.receta.RecetaDto;
 import com.mk.pizzaexpress.domain.entity.Receta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,5 +17,5 @@ public class CrearIngredienteDto {
 
     int stock;
 
-    List <Receta> recetas;
+    List <RecetaDto> recetas;
 }

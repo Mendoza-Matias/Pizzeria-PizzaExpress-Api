@@ -6,17 +6,23 @@ import com.mk.pizzaexpress.domain.dto.bebida.BebidaDto;
 import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoDto;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
 import com.mk.pizzaexpress.domain.dto.pizza.PizzaDto;
+import com.mk.pizzaexpress.domain.entity.Bebida;
 import com.mk.pizzaexpress.domain.entity.Pedido;
+import com.mk.pizzaexpress.domain.entity.Pizza;
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
 import com.mk.pizzaexpress.domain.entity.user.Cliente;
 import com.mk.pizzaexpress.domain.exceptions.ClienteException;
 import com.mk.pizzaexpress.domain.exceptions.PedidoException;
+import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
 import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import com.mk.pizzaexpress.persistence.repository.PedidoRepository;
+import com.mk.pizzaexpress.persistence.repository.PizzaRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Setter
@@ -27,6 +33,12 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    PizzaRepository pizzaRepository;
+
+    @Autowired
+    BebidaRepository bebidaRepository;
 
     @Autowired
     PedidoMapper pedidoMapper;
@@ -50,11 +62,13 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = pedidoMapper.aPedidoDeCrearPedidoDto(crearPedidoDto);
         pedido.setNumeroDePedido(new Random().nextInt(900) + 100);
         pedido.setEstadoPedido(EstadoPedido.NOENTREGADO);
-        //pedido.setPizzas();
-        //pedido.setBebidas();
+        pedido.setPizzas(obtenerPizzasParaElPedido(pizzasIds));
+        pedido.setBebidas(obtenerBebidaParaElPedido(bebidaIds));
         pedido.setCliente(cliente);
 
-        return null;
+
+
+        return pedidoMapper.toDto(pedido);
     }
 
     @Override
@@ -68,7 +82,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoDto editarUnPedido(int numeroDePedido,int clienteId ,CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidaIds) {
+    public PedidoDto editarUnPedido(int numeroDePedido,int clienteId ,CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidasIds) {
 
         Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new PedidoException("No existe un pedido con este numero"));
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new ClienteException("Cliente no encontrado"));
@@ -76,8 +90,8 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setNumeroDePedido(new Random().nextInt(900) + 100);
         pedido.setEstadoPedido(EstadoPedido.NOENTREGADO);
         pedido.setCliente(cliente);
-        //pedido.setPizzas();
-        //pedido.setBebidas();
+        pedido.setPizzas(obtenerPizzasParaElPedido(pizzasIds));
+        pedido.setBebidas(obtenerBebidaParaElPedido(bebidasIds));
 
         return null;
     }
@@ -95,6 +109,35 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new PedidoException("Pedido no encontrado"));
         pedidoRepository.deleteById(numeroDePedido);
         return pedidoMapper.toDto(pedido);
+    }
+
+    @Override
+    public List<Pizza> obtenerPizzasParaElPedido(List<Integer> pizzasIds) {
+
+        List<Pizza> pizzas = new ArrayList<>();
+        for (Integer pizzaId : pizzasIds){
+            Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
+            if(pizzaOptional.isPresent()){
+                Pizza pizza = pizzaOptional.get();
+                pizzas.add(pizza);
+            }
+        }
+
+        return pizzas;
+    }
+
+    @Override
+    public List<Bebida> obtenerBebidaParaElPedido(List<Integer> bebidasIds) {
+        List<Bebida> bebidas = new ArrayList<>();
+        for (Integer bebidaId : bebidasIds){
+            Optional<Bebida> bebidaOptional = bebidaRepository.findById(bebidaId);
+            if(bebidaOptional.isPresent()){
+                Bebida bebida = bebidaOptional.get();
+                bebidas.add(bebida);
+            }
+        }
+
+        return bebidas;
     }
 
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BebidaRepository extends JpaRepository<Bebida,Integer> {
     Bebida findByNombre(String nombre);
-    boolean existsByNombre(String nombre);
+    boolean existsByMarca(String nombre);
 }

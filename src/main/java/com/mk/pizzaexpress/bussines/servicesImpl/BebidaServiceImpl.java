@@ -34,13 +34,14 @@ public class BebidaServiceImpl implements BebidaService {
     @Override
     public BebidaDto crearUnaBebida(CrearBebidaDto crearBebidaDto) {
 
-        if (existeBebidaConNombre(crearBebidaDto.getNombre())){
-            throw new BebidaException("Ya existe esta bebida");
+        if (existeBebidaDeMarca(crearBebidaDto.getMarca())){
+            throw new BebidaException("Ya existe esta marca de bebida");
         }
 
         Bebida bebida = bebidaMapper.aBebidaDeCrearBebidaDto(crearBebidaDto);
-        bebida.setNombre(crearBebidaDto.getNombre());
         bebida.setMarca(crearBebidaDto.getMarca());
+        bebida.setTipoDeBebida(crearBebidaDto.getTipoDeBebida());
+        bebida.setPrecio(crearBebidaDto.getPrecio());
         bebida.setMedida(crearBebidaDto.getMedida());
         bebida.setLitros(crearBebidaDto.getLitros());
         bebida.setStock(crearBebidaDto.getStock());
@@ -80,7 +81,9 @@ public class BebidaServiceImpl implements BebidaService {
     }
 
     @Override
-    public boolean existeBebidaConNombre(String nombre) {
-        return bebidaRepository.existsByNombre(nombre);
+    public boolean existeBebidaDeMarca(String marca) {
+        return bebidaRepository.existsByMarca(marca);
     }
+
+
 }

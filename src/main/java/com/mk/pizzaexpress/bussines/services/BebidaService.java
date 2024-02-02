@@ -22,5 +22,5 @@ public interface BebidaService {
 
     BebidaDto eliminarUnaBebida(int id);
 
-    boolean existeBebidaConNombre(String nombre);
+    boolean existeBebidaDeMarca(String marca);
 }
