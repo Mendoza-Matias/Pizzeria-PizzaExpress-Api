@@ -10,12 +10,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class CrearAdministradorDto {
 
-    String nombre;
+    private String nombre;
 
-    String email;
+    private String email;
 
-    String clave;
+    private String clave;
 
-    Rol rol;
+    private Rol rol;
 
 }

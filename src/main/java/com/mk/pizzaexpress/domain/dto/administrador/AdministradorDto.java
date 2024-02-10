@@ -10,9 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class AdministradorDto {
 
-    int id;
+    private int id;
 
-    String nombre;
+    private String nombre;
 
-    Rol rol;
+    private Rol rol;
 }

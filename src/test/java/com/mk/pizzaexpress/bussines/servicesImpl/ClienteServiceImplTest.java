@@ -5,7 +5,7 @@ import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapperImpl;
 import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
 import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
-import com.mk.pizzaexpress.domain.entity.user.Cliente;
+import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 

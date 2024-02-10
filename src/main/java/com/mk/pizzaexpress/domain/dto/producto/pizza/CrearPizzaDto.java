@@ -1,4 +1,4 @@
-package com.mk.pizzaexpress.domain.dto.pizza;
+package com.mk.pizzaexpress.domain.dto.producto.pizza;
 
 import com.mk.pizzaexpress.domain.entity.enums.Medida;
 import com.mk.pizzaexpress.domain.entity.enums.TipoDePizza;
@@ -11,13 +11,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class CrearPizzaDto {
 
-    String nombre;
+    private int id;
 
-    TipoDePizza tipoDePizza;
+    private String nombre;
 
-    float precio;
+    private TipoDePizza tipoDePizza;
 
-    Medida medida;
+    private float precio;
 
-    Byte[] imagen;
+    private Medida medida;
+
 }

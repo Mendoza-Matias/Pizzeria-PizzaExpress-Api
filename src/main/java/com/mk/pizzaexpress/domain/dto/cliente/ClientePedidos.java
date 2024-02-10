@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ClientePedidos {
 
-    List<PedidoDto> pedidos;
+    private List<PedidoDto> pedidos;
 }

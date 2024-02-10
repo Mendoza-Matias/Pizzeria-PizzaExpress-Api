@@ -5,8 +5,9 @@ import com.mk.pizzaexpress.bussines.services.AdministradorService;
 import com.mk.pizzaexpress.domain.dto.administrador.AdministradorDto;
 import com.mk.pizzaexpress.domain.dto.administrador.CrearAdministradorDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
-import com.mk.pizzaexpress.domain.entity.user.Administrador;
+import com.mk.pizzaexpress.domain.entity.usuarios.Administrador;
 import com.mk.pizzaexpress.domain.exceptions.AdministradorException;
+import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.persistence.repository.AdministradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,6 @@ public class AdministradorServiceImpl implements AdministradorService {
     @Autowired
     AdministradorMapper administradorMapper;
 
-
-
     @Override
     public List<AdministradorDto> listarTodosLosAdministradores() {
         return administradorMapper.toDtoList(administradorRepository.findAll());
@@ -37,7 +36,6 @@ public class AdministradorServiceImpl implements AdministradorService {
         }
 
         Administrador administrador = administradorMapper.aAdminstradorDeCrearAdministradorDto(crearAdministradorDto);
-
         administrador.setNombre(crearAdministradorDto.getNombre());
         administrador.setEmail(crearAdministradorDto.getEmail());
         administrador.setClave(crearAdministradorDto.getClave());
@@ -48,18 +46,18 @@ public class AdministradorServiceImpl implements AdministradorService {
 
     @Override
     public AdministradorDto modificarClave(String email, String clave) {
-        Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new AdministradorException("Email no encontrado"));
+
+        Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Email no encontrado"));
         administrador.setClave(clave);
         return administradorMapper.toDto(administradorRepository.save(administrador));
     }
 
     @Override
     public AdministradorDto eliminarAdministrador(String email, String clave) {
+        Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Email no encontrado"));
 
-        Administrador administrador = administradorRepository.findByEmail(email).orElseThrow(()-> new AdministradorException("Email no encontrado"));
-
-        if(existeAdministradorConClave(clave)){
-            throw new AdministradorException("Clave no encontrada");
+        if(!existeAdministradorConClave(clave)){
+            throw new AdministradorException("Clave no encontrada , vuelve a ingresarla");
         }
 
         administradorRepository.deleteById(administrador.getId());

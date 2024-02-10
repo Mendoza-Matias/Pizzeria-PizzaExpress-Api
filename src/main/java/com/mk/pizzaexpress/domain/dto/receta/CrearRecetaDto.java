@@ -1,20 +1,17 @@
 package com.mk.pizzaexpress.domain.dto.receta;
 
-import com.mk.pizzaexpress.domain.entity.Pizza;
+import com.mk.pizzaexpress.domain.dto.producto.pizza.PizzaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class CrearRecetaDto {
 
-    String nombre;
+    private String nombre;
 
-    Pizza pizza;
+    private PizzaDto pizza;
 
-    List<Integer> idIngredientes;
 }

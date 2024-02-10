@@ -3,7 +3,7 @@ package com.mk.pizzaexpress.bussines.mapper.implMapper;
 import com.mk.pizzaexpress.bussines.mapper.IMapper;
 import com.mk.pizzaexpress.domain.dto.administrador.AdministradorDto;
 import com.mk.pizzaexpress.domain.dto.administrador.CrearAdministradorDto;
-import com.mk.pizzaexpress.domain.entity.user.Administrador;
+import com.mk.pizzaexpress.domain.entity.usuarios.Administrador;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

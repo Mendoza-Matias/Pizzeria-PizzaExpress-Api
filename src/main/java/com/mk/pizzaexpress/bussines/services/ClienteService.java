@@ -8,7 +8,7 @@ public interface ClienteService {
 
         ClienteDto buscarClientePorEmail(String email);
         ClienteDto crearCliente(CrearClienteDto cliente);
-        ClienteDto modificarClave(String email , String claveNueva);
+        ClienteDto modificarClave(String email , String clave , String claveNueva);
         ClienteDto modificarDireccion(int id, String direccionNueva);
         ClienteDto modificarLocalidad(int id , String localidadNueva );
         ClienteDto eliminarCliente(String email , String clave);

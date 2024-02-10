@@ -9,7 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class CrearProveedorDto {
 
-    String nombre;
-    String email;
-    String clave;
+    private String nombre;
+
+    private String email;
+
+    private String clave;
 }

@@ -1,6 +1,6 @@
 package com.mk.pizzaexpress.persistence.repository;
 
-import com.mk.pizzaexpress.domain.entity.user.Proveedor;
+import com.mk.pizzaexpress.domain.entity.usuarios.Proveedor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

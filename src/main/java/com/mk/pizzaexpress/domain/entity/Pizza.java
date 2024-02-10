@@ -2,6 +2,7 @@ package com.mk.pizzaexpress.domain.entity;
 
 import com.mk.pizzaexpress.domain.entity.enums.Medida;
 import com.mk.pizzaexpress.domain.entity.enums.TipoDePizza;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Pizza extends Producto{
 
@@ -22,8 +24,10 @@ public class Pizza extends Producto{
     @Column(name = "medida")
     private Medida medida;
 
-    @ManyToMany(mappedBy = "pizzas")
-    private List <Pedido> pedidos;
+    //Manejo las pizzas que han sido pedidas con su cantidad
+
+    @OneToMany(mappedBy = "pizza")
+    private List <PedidoPizza> pedidosPizzas;
 
     @JoinColumn(name = "receta_id")
     @OneToOne(fetch = FetchType.LAZY)

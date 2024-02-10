@@ -1,4 +1,4 @@
-package com.mk.pizzaexpress.domain.entity.user;
+package com.mk.pizzaexpress.domain.entity.usuarios;
 
 import com.mk.pizzaexpress.domain.entity.Pedido;
 import jakarta.persistence.Column;

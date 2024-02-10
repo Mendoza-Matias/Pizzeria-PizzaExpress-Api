@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProveedorDto {
 
-    String nombre;
+    private String nombre;
 
-    Rol rol;
+    private Rol rol;
 }

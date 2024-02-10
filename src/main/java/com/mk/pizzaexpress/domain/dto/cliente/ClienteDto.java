@@ -10,18 +10,18 @@ import lombok.Data;
 @AllArgsConstructor
 public class ClienteDto {
 
-    int id;
+    private int id;
 
-    String nombre;
+    private String nombre;
 
-    String email;
+    private String email;
 
-    int telefono;
+    private int telefono;
 
-    Rol rol;
+    private Rol rol;
 
-    String direccion;
+    private String direccion;
 
-    String localidad;
+    private String localidad;
 
 }

@@ -1,14 +1,13 @@
 package com.mk.pizzaexpress.bussines.servicesImpl;
 
 import com.mk.pizzaexpress.bussines.mapper.implMapper.IngredienteMapper;
-import com.mk.pizzaexpress.bussines.mapper.implMapper.RecetaMapper;
 import com.mk.pizzaexpress.bussines.services.IngredienteService;
 import com.mk.pizzaexpress.domain.dto.ingrediente.CrearIngredienteDto;
 import com.mk.pizzaexpress.domain.dto.ingrediente.IngredienteDto;
-import com.mk.pizzaexpress.domain.dto.receta.RecetaDto;
 import com.mk.pizzaexpress.domain.entity.Ingrediente;
 import com.mk.pizzaexpress.domain.entity.Receta;
 import com.mk.pizzaexpress.domain.exceptions.IngredienteException;
+import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.persistence.repository.IngredienteRepository;
 import com.mk.pizzaexpress.persistence.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class IngredienteImpl implements IngredienteService {
@@ -46,15 +44,14 @@ public class IngredienteImpl implements IngredienteService {
         Ingrediente ingrediente = ingredienteMapper.aIngredienteDeCrearIngredienteDto(crearIngredienteDto);
         ingrediente.setNombre(crearIngredienteDto.getNombre());
         ingrediente.setStock(crearIngredienteDto.getStock());
-        ingrediente.setRecetas(obtenerRecetasQueLlevanElIngrediente(recetasIds));
 
-        return ingredienteMapper.toDto(ingrediente);
+
+        return ingredienteMapper.toDto(ingredienteRepository.save(ingrediente));
     }
 
     @Override
     public IngredienteDto actualizarStockDeIngrediente(int id, int cantidad) {
-
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(()-> new IngredienteException("Ingrediente no encontrado"));
+        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Ingrediente no encontrado"));
         int stock = ingrediente.getStock() + cantidad;
         ingrediente.setStock(stock);
         return ingredienteMapper.toDto(ingredienteRepository.save(ingrediente));
@@ -65,18 +62,5 @@ public class IngredienteImpl implements IngredienteService {
         return ingredienteRepository.existsByNombre(nombre);
     }
 
-    @Override
-    public List<Receta> obtenerRecetasQueLlevanElIngrediente(List <Integer> recetasIds) {
-        List<Receta> recetas = new ArrayList<>();
 
-        for (Integer recetaId:recetasIds){
-            Optional<Receta> recetaOptional = recetaRepository.findById(recetaId);
-
-            if(recetaOptional.isPresent()){
-                Receta receta = recetaOptional.get();
-                recetas.add(receta);
-            }
-        }
-        return recetas;
-    }
 }

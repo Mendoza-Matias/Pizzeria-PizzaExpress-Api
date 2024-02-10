@@ -4,6 +4,5 @@ public enum TipoDeBebida {
     GASEOSA,
     AGUA,
     JUGO,
-
     ALCOHOLICA
 }

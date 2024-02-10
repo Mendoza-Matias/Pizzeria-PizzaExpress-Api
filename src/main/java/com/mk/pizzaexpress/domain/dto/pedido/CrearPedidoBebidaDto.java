@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
-public class CrearPedidoDto {
+public class CrearPedidoBebidaDto {
 
-    List<Integer> idPizzas;
+    private int bebidaId;
 
-    List<Integer> idBebidas;
+    private int cantidad;
 }

@@ -23,6 +23,4 @@ public class Ingrediente {
     @Column(name="numero_stock")
     private int stock;
 
-    @ManyToMany(mappedBy = "ingredientes")
-    private List<Receta> recetas;
 }

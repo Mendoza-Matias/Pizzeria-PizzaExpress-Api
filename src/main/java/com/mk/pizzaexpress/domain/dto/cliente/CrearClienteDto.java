@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CrearClienteDto {
 
-    String nombre;
+    private String nombre;
 
-    int telefono;
+    private int telefono;
 
-    String email;
+    private String email;
 
-    String clave;
+    private String clave;
 
-    String direccion;
+    private String direccion;
 
-    String localidad;
+    private String localidad;
 }

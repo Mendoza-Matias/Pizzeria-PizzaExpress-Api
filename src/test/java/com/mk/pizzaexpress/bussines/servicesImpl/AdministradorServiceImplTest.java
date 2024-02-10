@@ -4,7 +4,7 @@ import com.mk.pizzaexpress.bussines.mapper.implMapper.AdministradorMapper;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.AdministradorMapperImpl;
 import com.mk.pizzaexpress.domain.dto.administrador.AdministradorDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
-import com.mk.pizzaexpress.domain.entity.user.Administrador;
+import com.mk.pizzaexpress.domain.entity.usuarios.Administrador;
 import com.mk.pizzaexpress.persistence.repository.AdministradorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

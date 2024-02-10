@@ -1,7 +1,7 @@
 package com.mk.pizzaexpress.domain.dto.receta;
 
-import com.mk.pizzaexpress.domain.dto.ingrediente.IngredienteDto;
-import com.mk.pizzaexpress.domain.dto.pizza.PizzaDto;
+import com.mk.pizzaexpress.domain.dto.producto.pizza.PizzaDto;
+import com.mk.pizzaexpress.domain.dto.receta.recetaIngrediente.RecetaIngredienteDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class RecetaDto {
 
-    PizzaDto pizza;
+    private String nombre;
 
-    IngredienteDto ingrediente;
+    private PizzaDto pizza;
+
+    private RecetaIngredienteDto recetaIngredienteDto;
 }

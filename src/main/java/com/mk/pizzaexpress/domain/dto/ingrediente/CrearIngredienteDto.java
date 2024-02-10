@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CrearIngredienteDto {
 
-    String nombre;
+    private String nombre;
 
-    int stock;
+    private int stock;
 
-    List <RecetaDto> recetas;
+    private List <RecetaDto> recetas;
 }

@@ -1,11 +1,10 @@
 package com.mk.pizzaexpress.bussines.services;
 
-import com.mk.pizzaexpress.domain.dto.bebida.BebidaDto;
-import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoDto;
+import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoBebidaDto;
+import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoPizzaDto;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
-import com.mk.pizzaexpress.domain.dto.pizza.PizzaDto;
-import com.mk.pizzaexpress.domain.entity.Bebida;
-import com.mk.pizzaexpress.domain.entity.Pizza;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoBebida;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
 
 import java.util.List;
 
@@ -16,21 +15,21 @@ public interface PedidoService {
 
     PedidoDto obtenerPedidoPorNumeroDePedido(int numeroDePedido);
 
-    PedidoDto crearUnPedido(int usuarioId , CrearPedidoDto crearPedidoDto , List<Integer> pizzasIds,List<Integer> bebidasIds);
+    PedidoDto crearUnPedido(int clienteId , List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida);
 
-    void restarStockDeIngredientesParaPizza (PizzaDto pizza);
+    PedidoDto editarUnPedido (int clienteId , List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida);
 
-    void restarStockDeBebidas (BebidaDto bebida);
-
-    PedidoDto editarUnPedido (int numeroDePedido,int clienteId, CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidasIds);
-
-    PedidoDto modificarEstadoDePedido(int numeroPedido);
+    PedidoDto modificarEstadoDePedido(int numeroDePedido);
 
     PedidoDto eliminarUnPedidoPorNumeroDePedido (int numeroDePedido);
 
-    List<Pizza> obtenerPizzasParaElPedido(List<Integer> pizzasIds);
+    //Retorna una lista de las pizzas pedidas y la cantidad
+    List<PedidoPizza> obtenerPizzasPedidas(List<CrearPedidoPizzaDto> crearPedidoPizza);
 
-    List<Bebida> obtenerBebidaParaElPedido(List<Integer> bebida);
+    //Retorna una lista de las bebidas pedidas y su cantidad
+    List<PedidoBebida> obtenerBebidasPedidas (List<CrearPedidoBebidaDto> crearPedidoBebida);
+
+
 
 
 

@@ -17,5 +17,4 @@ public interface IngredienteService {
 
     boolean existeElIngredienteConNombre(String nombre);
 
-    List<Receta> obtenerRecetasQueLlevanElIngrediente(List<Integer> recetasIds);
 }

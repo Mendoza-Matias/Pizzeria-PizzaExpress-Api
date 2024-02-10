@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public abstract class Producto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nombre")
@@ -19,9 +19,6 @@ public abstract class Producto {
 
     @Column(name = "precio")
     private double precio;
-
-    @Column(name = "imagen")
-    private byte[] imagen;
 
     @Column(name = "urlImagen")
     private String urlImagen;

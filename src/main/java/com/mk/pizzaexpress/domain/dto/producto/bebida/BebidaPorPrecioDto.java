@@ -1,4 +1,4 @@
-package com.mk.pizzaexpress.domain.dto.bebida;
+package com.mk.pizzaexpress.domain.dto.producto.bebida;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

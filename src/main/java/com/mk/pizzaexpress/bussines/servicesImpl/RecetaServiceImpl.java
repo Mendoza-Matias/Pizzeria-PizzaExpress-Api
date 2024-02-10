@@ -4,21 +4,25 @@ import com.mk.pizzaexpress.bussines.mapper.implMapper.RecetaMapper;
 import com.mk.pizzaexpress.bussines.services.RecetaService;
 import com.mk.pizzaexpress.domain.dto.receta.CrearRecetaDto;
 import com.mk.pizzaexpress.domain.dto.receta.RecetaDto;
+import com.mk.pizzaexpress.domain.dto.receta.recetaIngrediente.RecetaIngredienteDto;
 import com.mk.pizzaexpress.domain.entity.Ingrediente;
 import com.mk.pizzaexpress.domain.entity.Pizza;
 import com.mk.pizzaexpress.domain.entity.Receta;
+import com.mk.pizzaexpress.domain.entity.receta.RecetaIngrediente;
 import com.mk.pizzaexpress.domain.exceptions.IngredienteException;
+import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.domain.exceptions.PizzaException;
 import com.mk.pizzaexpress.domain.exceptions.RecetaException;
 import com.mk.pizzaexpress.persistence.repository.IngredienteRepository;
 import com.mk.pizzaexpress.persistence.repository.PizzaRepository;
 import com.mk.pizzaexpress.persistence.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class RecetaServiceImpl implements RecetaService {
 
     @Autowired
@@ -29,51 +33,37 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Autowired
     IngredienteRepository ingredienteRepository;
-
     @Autowired
     RecetaMapper recetaMapper;
 
-
     @Override
     public RecetaDto listarUnaRecetaPorId(int id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow(()-> new RecetaException("Receta no encontrada"));
+        Receta receta = recetaRepository.findById(id).orElseThrow(()-> new NotFoundException("Receta no encontrada"));
         return recetaMapper.toDto(receta);
     }
 
     @Override
-    public RecetaDto buscarRecetaPorPizza(int idPizza) {
-        Pizza pizza = pizzaRepository.findById(idPizza).orElseThrow(()-> new PizzaException("Pizza no encontrada"));
-        Receta receta = recetaRepository.findByPizza(pizza).orElseThrow(()-> new RecetaException("Receta de pizza no encontrda"));
+    public RecetaDto buscarRecetaPorPizza(int id) {
+        Pizza pizza = pizzaRepository.findById(id).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
+        Receta receta = recetaRepository.findByPizza(pizza).orElseThrow(()-> new NotFoundException("Receta no encontrada"));
         return recetaMapper.toDto(receta);
     }
 
     @Override
-    public RecetaDto crearReceta(CrearRecetaDto crearRecetaDto , int pizzaId , List<Integer> ingredientesIds) {
-
+    public RecetaDto crearReceta(int pizzaId, CrearRecetaDto crearRecetaDto) {
         if(existeRecetaConNombre(crearRecetaDto.getNombre())){
-            throw new RecetaException("Ya existe esta receta");
+            throw new RecetaException("Ya existe una receta con este nombre");
         }
-
-        Pizza pizza = pizzaRepository.findById(pizzaId).orElseThrow(()-> new PizzaException("Pizza no encontrada"));
-
+        Pizza pizza = pizzaRepository.findById(pizzaId).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
         Receta receta = recetaMapper.aRecetaDecrearRecetaDto(crearRecetaDto);
         receta.setNombre(crearRecetaDto.getNombre());
         receta.setPizza(pizza);
-        receta.setIngredientes(obtenerIngredientesDeLaReceta(ingredientesIds));
-
-        return recetaMapper.toDto(receta);
+        return recetaMapper.toDto(recetaRepository.save(receta));
     }
 
     @Override
     public RecetaDto eliminarUnaReceta(int id) {
-
-        Receta receta = recetaRepository.findById(id).orElseThrow(()-> new RecetaException("Receta no encontrada"));
-        Optional<Pizza> pizza = pizzaRepository.findById(receta.getPizza().getId());
-
-        if(pizza.isPresent()){
-            throw new RecetaException("Debes eliminar primero la pizza");
-        }
-
+        Receta receta = recetaRepository.findById(id).orElseThrow(()-> new NotFoundException("Receta no encontrada"));
         recetaRepository.deleteById(id);
         return recetaMapper.toDto(receta);
     }
@@ -84,22 +74,20 @@ public class RecetaServiceImpl implements RecetaService {
     }
 
     @Override
-    public List<Ingrediente> obtenerIngredientesDeLaReceta(List<Integer> ingredientesIds) {
-
-        List<Ingrediente> ingredientes = new ArrayList<>();
-
-        for (Integer ingredienteId : ingredientesIds){
-            Optional<Ingrediente> ingredienteOptional = ingredienteRepository.findById(ingredienteId);
-
-            if(ingredienteOptional.isPresent()){
-                Ingrediente ingrediente = ingredienteOptional.get();
-                ingredientes.add(ingrediente);
-            }else {
-                throw new IngredienteException("El ingrediente con id " + ingredienteId + " No se encuentra");
-            }
-
+    public RecetaDto agregarIngredientesALaReceta(int recetaId, List<RecetaIngredienteDto> ingredientesYCantidad) {
+        List<RecetaIngrediente> recetaIngredientes = new ArrayList<>();
+        Receta receta = recetaRepository.findById(recetaId).orElseThrow(()-> new NotFoundException("Receta no encontrada"));
+        for(RecetaIngredienteDto ingredienteCantidad : ingredientesYCantidad){
+            Ingrediente ingrediente = ingredienteRepository.findById(ingredienteCantidad.getIngredienteId()).orElseThrow(()-> new NotFoundException("Ingrediente no encontrado"));
+            RecetaIngrediente recetaIngrediente = RecetaIngrediente
+                    .builder()
+                    .ingrediente(ingrediente)
+                    .cantidad(ingredienteCantidad.getCantidad())
+                    .build();
+            recetaIngredientes.add(recetaIngrediente);
         }
+        receta.setRecetaIngredientes(recetaIngredientes);
 
-        return ingredientes;
+        return recetaMapper.toDto(recetaRepository.save(receta));
     }
 }

@@ -1,9 +1,8 @@
 package com.mk.pizzaexpress.bussines.services;
 
 
-import com.mk.pizzaexpress.domain.dto.bebida.BebidaDto;
-import com.mk.pizzaexpress.domain.dto.bebida.BebidaPorPrecioDto;
-import com.mk.pizzaexpress.domain.dto.bebida.CrearBebidaDto;
+import com.mk.pizzaexpress.domain.dto.producto.bebida.BebidaDto;
+import com.mk.pizzaexpress.domain.dto.producto.bebida.CrearBebidaDto;
 
 import java.util.List;
 

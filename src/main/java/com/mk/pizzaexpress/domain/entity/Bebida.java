@@ -2,6 +2,7 @@ package com.mk.pizzaexpress.domain.entity;
 
 import com.mk.pizzaexpress.domain.entity.enums.Medida;
 import com.mk.pizzaexpress.domain.entity.enums.TipoDeBebida;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoBebida;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +31,7 @@ public class Bebida extends Producto{
     @Column(name = "medida")
     private Medida medida;
 
-    @ManyToMany(mappedBy = "bebidas")
-    private List<Pedido> pedidos;
+    @OneToMany(mappedBy = "bebida")
+    private List<PedidoBebida> pedidosBebida;
 
 }

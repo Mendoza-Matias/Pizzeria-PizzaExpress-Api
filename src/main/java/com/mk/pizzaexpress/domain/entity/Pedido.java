@@ -1,10 +1,13 @@
 package com.mk.pizzaexpress.domain.entity;
 
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
-import com.mk.pizzaexpress.domain.entity.user.Cliente;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoBebida;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
+import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -30,24 +33,10 @@ public class Pedido {
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 
-    @ManyToMany
-    @JoinTable(
-            name = "pedido_bebidas",
-            joinColumns = { @JoinColumn(name = "pedido_id")},
-            inverseJoinColumns = {@JoinColumn(name="bebida_id")}
+    @OneToMany(mappedBy = "pedido" , cascade = CascadeType.ALL)
+    private List<PedidoBebida> bebidas;
 
-    )
-    private List<Bebida> bebidas;
-
-    @ManyToMany
-    @JoinTable(
-            name = "pedido_pizzas",
-            joinColumns = {@JoinColumn(name="pedido_id")},
-            inverseJoinColumns = {@JoinColumn(name="pizza_id")}
-    )
-    private List<Pizza> pizzas;
-
-
-
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
+    private List<PedidoPizza> pizzas;
 
 }

@@ -2,30 +2,28 @@ package com.mk.pizzaexpress.bussines.servicesImpl;
 
 import com.mk.pizzaexpress.bussines.mapper.implMapper.PedidoMapper;
 import com.mk.pizzaexpress.bussines.services.PedidoService;
-import com.mk.pizzaexpress.domain.dto.bebida.BebidaDto;
-import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoDto;
+import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoBebidaDto;
+import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoPizzaDto;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
-import com.mk.pizzaexpress.domain.dto.pizza.PizzaDto;
 import com.mk.pizzaexpress.domain.entity.Bebida;
 import com.mk.pizzaexpress.domain.entity.Pedido;
 import com.mk.pizzaexpress.domain.entity.Pizza;
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
-import com.mk.pizzaexpress.domain.entity.user.Cliente;
-import com.mk.pizzaexpress.domain.exceptions.ClienteException;
-import com.mk.pizzaexpress.domain.exceptions.PedidoException;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoBebida;
+import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
+import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
+import com.mk.pizzaexpress.domain.exceptions.*;
 import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
 import com.mk.pizzaexpress.persistence.repository.ClienteRepository;
 import com.mk.pizzaexpress.persistence.repository.PedidoRepository;
 import com.mk.pizzaexpress.persistence.repository.PizzaRepository;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
-@Setter
+@Service
 public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
@@ -43,6 +41,8 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     PedidoMapper pedidoMapper;
 
+
+
     @Override
     public List<PedidoDto> listarTodosLosPedidos() {
         return pedidoMapper.toDtoList(pedidoRepository.findAll());
@@ -50,94 +50,73 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public PedidoDto obtenerPedidoPorNumeroDePedido(int numeroDePedido) {
-        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new PedidoException("Pedido no encontrado"));
+        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new NotFoundException("Pedido con numero de pedido " + numeroDePedido + "no se ha encontrado"));
         return pedidoMapper.toDto(pedido);
     }
 
     @Override
-    public PedidoDto crearUnPedido(int clienteId, CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidaIds) {
-
-        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new ClienteException("Cliente no encontrado"));
-
-        Pedido pedido = pedidoMapper.aPedidoDeCrearPedidoDto(crearPedidoDto);
-        pedido.setNumeroDePedido(new Random().nextInt(900) + 100);
-        pedido.setEstadoPedido(EstadoPedido.NOENTREGADO);
-        pedido.setPizzas(obtenerPizzasParaElPedido(pizzasIds));
-        pedido.setBebidas(obtenerBebidaParaElPedido(bebidaIds));
-        pedido.setCliente(cliente);
-
-
-
-        return pedidoMapper.toDto(pedido);
-    }
-
-    @Override
-    public void restarStockDeIngredientesParaPizza(PizzaDto pizza) {
-
-    }
-
-    @Override
-    public void restarStockDeBebidas(BebidaDto bebida) {
-
-    }
-
-    @Override
-    public PedidoDto editarUnPedido(int numeroDePedido,int clienteId ,CrearPedidoDto crearPedidoDto,List<Integer> pizzasIds,List<Integer> bebidasIds) {
-
-        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new PedidoException("No existe un pedido con este numero"));
-        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new ClienteException("Cliente no encontrado"));
-
-        pedido.setNumeroDePedido(new Random().nextInt(900) + 100);
+    public PedidoDto crearUnPedido(int clienteId , List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida) {
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+        Pedido pedido = Pedido.builder().build();
         pedido.setEstadoPedido(EstadoPedido.NOENTREGADO);
         pedido.setCliente(cliente);
-        pedido.setPizzas(obtenerPizzasParaElPedido(pizzasIds));
-        pedido.setBebidas(obtenerBebidaParaElPedido(bebidasIds));
-
-        return null;
+        pedido.setPizzas(obtenerPizzasPedidas(crearPedidoPizza));
+        pedido.setBebidas(obtenerBebidasPedidas(crearPedidoBebida));
+        return pedidoMapper.toDto(pedidoRepository.save(pedido));
     }
 
     @Override
-    public PedidoDto modificarEstadoDePedido(int numeroPedido) {
+    public PedidoDto editarUnPedido(int numeroDePedido, List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida) {
 
-        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroPedido).orElseThrow(()-> new PedidoException("No existe un pedido con este numero de pedido"));
+        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new NotFoundException("Pedido con numero de pedido " + numeroDePedido + " no se ha encontrado"));
+        pedido.setEstadoPedido(EstadoPedido.NOENTREGADO);
+        pedido.setPizzas(obtenerPizzasPedidas(crearPedidoPizza));
+        pedido.setBebidas(obtenerBebidasPedidas(crearPedidoBebida));
+        return pedidoMapper.toDto(pedidoRepository.save(pedido));
+    }
+
+    @Override
+    public PedidoDto modificarEstadoDePedido(int numeroDePedido) {
+        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new NotFoundException("Pedido con numero de pedido " + numeroDePedido+ " no se ha encontrado"));
         pedido.setEstadoPedido(EstadoPedido.ENTREGADO);
         return pedidoMapper.toDto(pedidoRepository.save(pedido));
     }
 
     @Override
     public PedidoDto eliminarUnPedidoPorNumeroDePedido(int numeroDePedido) {
-        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new PedidoException("Pedido no encontrado"));
+        Pedido pedido = pedidoRepository.findByNumeroDePedido(numeroDePedido).orElseThrow(()-> new NotFoundException("Pedido con numero de pedido " + numeroDePedido + " no se ha encontrado"));
         pedidoRepository.deleteById(numeroDePedido);
         return pedidoMapper.toDto(pedido);
     }
 
     @Override
-    public List<Pizza> obtenerPizzasParaElPedido(List<Integer> pizzasIds) {
+    public List<PedidoPizza> obtenerPizzasPedidas(List<CrearPedidoPizzaDto> crearPedidoPizza) {
+        List<PedidoPizza> pizzasPedidas = new ArrayList<>();
+        for(CrearPedidoPizzaDto pizzaPedidaYCantidad : crearPedidoPizza){
+            Pizza pizza = pizzaRepository.findById(pizzaPedidaYCantidad.getPizzaId()).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
+            PedidoPizza pedidoPizza = PedidoPizza.builder()
+                    .pizza(pizza)
+                    .cantidad(pizzaPedidaYCantidad.getCantidad())
+                    .build();
 
-        List<Pizza> pizzas = new ArrayList<>();
-        for (Integer pizzaId : pizzasIds){
-            Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
-            if(pizzaOptional.isPresent()){
-                Pizza pizza = pizzaOptional.get();
-                pizzas.add(pizza);
-            }
+            pizzasPedidas.add(pedidoPizza);
         }
 
-        return pizzas;
+        return pizzasPedidas;
     }
 
     @Override
-    public List<Bebida> obtenerBebidaParaElPedido(List<Integer> bebidasIds) {
-        List<Bebida> bebidas = new ArrayList<>();
-        for (Integer bebidaId : bebidasIds){
-            Optional<Bebida> bebidaOptional = bebidaRepository.findById(bebidaId);
-            if(bebidaOptional.isPresent()){
-                Bebida bebida = bebidaOptional.get();
-                bebidas.add(bebida);
-            }
+    public List<PedidoBebida> obtenerBebidasPedidas(List<CrearPedidoBebidaDto> crearPedidoBebida) {
+        List<PedidoBebida> bebidasPedidas = new ArrayList<>();
+        for(CrearPedidoBebidaDto bebidaPedidaYCantidad : crearPedidoBebida){
+            Bebida bebida = bebidaRepository.findById(bebidaPedidaYCantidad.getBebidaId()).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
+
+            PedidoBebida pedidoBebida = PedidoBebida.builder()
+                    .bebida(bebida)
+                    .cantidad(bebidaPedidaYCantidad.getCantidad())
+                    .build();
+            bebidasPedidas.add(pedidoBebida);
         }
-
-        return bebidas;
+        return bebidasPedidas;
     }
-
 }

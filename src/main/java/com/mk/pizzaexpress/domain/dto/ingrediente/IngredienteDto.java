@@ -9,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class IngredienteDto {
 
-    String nombre;
+    private String nombre;
 }
