@@ -1,17 +1,23 @@
 package com.mk.pizzaexpress.bussines.servicesImpl;
 
+import com.cloudinary.Cloudinary;
 import com.mk.pizzaexpress.bussines.mapper.implMapper.BebidaMapper;
 import com.mk.pizzaexpress.bussines.services.BebidaService;
 import com.mk.pizzaexpress.domain.dto.producto.bebida.BebidaDto;
 import com.mk.pizzaexpress.domain.dto.producto.bebida.CrearBebidaDto;
 import com.mk.pizzaexpress.domain.entity.Bebida;
 import com.mk.pizzaexpress.domain.exceptions.BebidaException;
+import com.mk.pizzaexpress.domain.exceptions.ImagenException;
 import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BebidaServiceImpl implements BebidaService {
@@ -21,6 +27,9 @@ public class BebidaServiceImpl implements BebidaService {
 
     @Autowired
     BebidaMapper bebidaMapper;
+
+    @Autowired
+    Cloudinary cloudinary;
 
     @Override
     public List<BebidaDto> listarTodasLasBebidas() {
@@ -34,6 +43,20 @@ public class BebidaServiceImpl implements BebidaService {
     }
 
     @Override
+    public String almacenarImagen(byte[] imagen, String carpeta) {
+        try {
+            HashMap<Object,Object> almacenamiento = new HashMap<>();
+            almacenamiento.put("carpeta",carpeta);
+            Map subirImagen = cloudinary.uploader().upload(imagen,almacenamiento);
+            String id = (String) subirImagen.get("public_id");
+            return cloudinary.url().secure(true).generate(id);
+
+        } catch (IOException e) {
+            throw new ImagenException("No fue posible convertir almacenar la imagen");
+        }
+    }
+
+    @Override
     public BebidaDto crearUnaBebida(CrearBebidaDto crearBebidaDto) {
 
         if (existeBebidaDeMarca(crearBebidaDto.getMarca())){
@@ -43,10 +66,10 @@ public class BebidaServiceImpl implements BebidaService {
         Bebida bebida = bebidaMapper.aBebidaDeCrearBebidaDto(crearBebidaDto);
         bebida.setMarca(crearBebidaDto.getMarca());
         bebida.setTipoDeBebida(crearBebidaDto.getTipoDeBebida());
+        bebida.setStock(crearBebidaDto.getStock());
         bebida.setPrecio(crearBebidaDto.getPrecio());
         bebida.setMedida(crearBebidaDto.getMedida());
         bebida.setLitros(crearBebidaDto.getLitros());
-        bebida.setStock(crearBebidaDto.getStock());
         //Imagenes
 
 
@@ -54,17 +77,56 @@ public class BebidaServiceImpl implements BebidaService {
     }
 
     @Override
-    public BebidaDto modificarPrecioDeBebida(int id, float precio) {
+    public BebidaDto agregarImagenDeBebida(int id , MultipartFile imagen) {
         Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
-        bebida.setPrecio(precio);
+        try{
+            if (imagen.isEmpty()){
+                throw new NotFoundException("No se encontro ninguna imagen");
+            }
+            byte [] bytes = imagen.getBytes();
+            String url = almacenarImagen(bytes,"bebidas");
+            bebida.setUrlImagen(url);
+
+        }catch(IOException e) {
+            throw new ImagenException("Error al leer el contenido de la imagen");
+        }
         return bebidaMapper.toDto(bebidaRepository.save(bebida));
     }
 
     @Override
-    public BebidaDto actualizarStockDeBebida(int id, int nuevoStock) {
+    public BebidaDto editarBebida(int id, CrearBebidaDto crearBebidaDto) {
+        return null;
+    }
+
+    @Override
+    public BebidaDto editarImagenDeBebida(int id, MultipartFile imagen) {
         Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
-        int stock = bebida.getStock() + nuevoStock;
-        bebida.setStock(stock);
+
+        try{
+            if (imagen.isEmpty()){
+                throw new NotFoundException("No se encontro ninguna imagen");
+            }
+            byte [] bytes = imagen.getBytes();
+            String url = almacenarImagen(bytes,"bebidas");
+            bebida.setUrlImagen(url);
+
+        }catch(IOException e) {
+            throw new ImagenException("Error al leer el contenido de la imagen");
+        }
+        return bebidaMapper.toDto(bebidaRepository.save(bebida));
+    }
+
+    @Override
+    public BebidaDto modificarPrecioDeBebida(int id, CrearBebidaDto crearBebidaDto) {
+        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
+        bebida.setPrecio(crearBebidaDto.getPrecio());
+        return bebidaMapper.toDto(bebidaRepository.save(bebida));
+    }
+
+    @Override
+    public BebidaDto actualizarStockDeBebida(int id, CrearBebidaDto crearBebidaDto) {
+        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
+        bebida.setStock(bebida.getStock() + crearBebidaDto.getStock());
         return bebidaMapper.toDto(bebidaRepository.save(bebida));
     }
 

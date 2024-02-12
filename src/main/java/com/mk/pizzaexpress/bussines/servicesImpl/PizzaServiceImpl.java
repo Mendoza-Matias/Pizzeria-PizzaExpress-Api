@@ -70,7 +70,18 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
     @Override
-    public PizzaDto crearUnaPizza(CrearPizzaDto crearPizzaDto , MultipartFile imagen) {
+    public PizzaDto crearUnaPizza(CrearPizzaDto crearPizzaDto) {
+            Pizza pizza = pizzaMapper.aPizzaDeCrearPizzaDto(crearPizzaDto);
+            pizza.setNombre(crearPizzaDto.getNombre());
+            pizza.setPrecio(crearPizzaDto.getPrecio());
+            pizza.setTipoDePizza(crearPizzaDto.getTipoDePizza());
+            pizza.setMedida(crearPizzaDto.getMedida());
+            return pizzaMapper.toDto(pizzaRepository.save(pizza));
+    }
+
+    @Override
+    public PizzaDto agregarImagenDePizza(int id,MultipartFile imagen) {
+        Pizza pizza = pizzaRepository.findById(id).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
 
         try{
             if (imagen.isEmpty()){
@@ -79,19 +90,12 @@ public class PizzaServiceImpl implements PizzaService {
             byte [] bytes = imagen.getBytes();
             String url = almacenarImagen(bytes,"imagenes");
 
-            Pizza pizza = pizzaMapper.aPizzaDeCrearPizzaDto(crearPizzaDto);
-            pizza.setNombre(crearPizzaDto.getNombre());
-            pizza.setPrecio(crearPizzaDto.getPrecio());
-            pizza.setTipoDePizza(crearPizzaDto.getTipoDePizza());
-            pizza.setMedida(crearPizzaDto.getMedida());
             pizza.setUrlImagen(url);
-
-            return pizzaMapper.toDto(pizzaRepository.save(pizza));
 
         }catch(IOException e) {
             throw new ImagenException("Error al leer el contenido de la imagen");
         }
-
+        return pizzaMapper.toDto(pizzaRepository.save(pizza));
     }
 
     @Override
@@ -137,9 +141,9 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
     @Override
-    public PizzaDto modificarPrecioDePizza(int id, float precio) {
+    public PizzaDto modificarPrecioDePizza(int id, CrearPizzaDto crearPizzaDto) {
         Pizza pizza = pizzaRepository.findById(id).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
-        pizza.setPrecio(precio);
+        pizza.setPrecio(crearPizzaDto.getPrecio());
         return pizzaMapper.toDto(pizzaRepository.save(pizza));
     }
 

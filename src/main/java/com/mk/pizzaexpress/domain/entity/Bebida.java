@@ -11,8 +11,10 @@ import java.util.List;
 @Entity
 @Table(name = "bebidas")
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Bebida extends Producto{
 

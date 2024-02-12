@@ -11,17 +11,20 @@ import lombok.Data;
 @AllArgsConstructor
 public class CrearBebidaDto {
 
-    String marca;
+    private int id;
 
-    TipoDeBebida tipoDeBebida;
+    private String marca;
 
-    float precio;
+    private TipoDeBebida tipoDeBebida;
 
-    Medida medida;
+    private int stock;
 
-    float litros;
+    private float precio;
 
-    int stock;
+    private Medida medida;
 
-    String urlImagen;
+    private float litros;
+
+
+
 }

@@ -16,6 +16,4 @@ public class CrearIngredienteDto {
     private String nombre;
 
     private int stock;
-
-    private List <RecetaDto> recetas;
 }

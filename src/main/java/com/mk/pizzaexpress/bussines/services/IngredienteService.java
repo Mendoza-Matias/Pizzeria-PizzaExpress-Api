@@ -11,9 +11,9 @@ public interface IngredienteService {
 
     List<IngredienteDto> listarTodosLosIngredientes();
 
-    IngredienteDto crearUnIngrediente(CrearIngredienteDto crearIngredienteDto , List<Integer> recetasId);
+    IngredienteDto crearUnIngrediente(CrearIngredienteDto crearIngredienteDto);
 
-    IngredienteDto actualizarStockDeIngrediente(int id , int cantidad);
+    IngredienteDto actualizarStockDeIngrediente(int id , CrearIngredienteDto crearIngredienteDto);
 
     boolean existeElIngredienteConNombre(String nombre);
 

@@ -18,7 +18,9 @@ public interface PizzaService {
 
     String almacenarImagen(byte[] imagen, String carpeta);
 
-    PizzaDto crearUnaPizza(CrearPizzaDto pizza,MultipartFile imagen);
+    PizzaDto crearUnaPizza(CrearPizzaDto pizza);
+
+    PizzaDto agregarImagenDePizza(int id,MultipartFile imagen);
 
     PizzaDto editarUnaPizza(int id , CrearPizzaDto crearPizzaDto);
 
@@ -26,7 +28,7 @@ public interface PizzaService {
 
     PizzaDto agreagarReceta(int pizzaId , int recetaId);
 
-    PizzaDto modificarPrecioDePizza(int id , float precio);
+    PizzaDto modificarPrecioDePizza(int id , CrearPizzaDto crearPizzaDto);
 
     PizzaDto eliminarUnaPizza(int id);
 

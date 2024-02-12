@@ -9,9 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class BebidaPorPrecioDto {
 
-    String nombre;
+    private String nombre;
 
-    String marca;
+    private String marca;
 
-    float litros;
+    private float litros;
 }

@@ -31,16 +31,20 @@ public class PizzaController {
     }
 
     @PostMapping
-    ResponseEntity<PizzaDto> crearPizza(@RequestBody CrearPizzaDto crearPizzaDto , @RequestParam(name = "imagen") MultipartFile imagen){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pizzaServiceImpl.crearUnaPizza(crearPizzaDto,imagen));
+    ResponseEntity<PizzaDto> crearPizza(@RequestBody CrearPizzaDto crearPizzaDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(pizzaServiceImpl.crearUnaPizza(crearPizzaDto));
+    }
+    @PostMapping("{id}/imagen")
+    ResponseEntity<PizzaDto> agregarImagenDePizza(@PathVariable(name = "id") int id , @RequestParam(name = "imagen") MultipartFile imagen){
+        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.agregarImagenDePizza(id,imagen));
     }
 
-    @PutMapping("editar/{id}")
+    @PutMapping("{id}/editar")
     ResponseEntity<PizzaDto> editarUnaPizza(@PathVariable(name = "id") int id , @RequestBody CrearPizzaDto crearPizzaDto){
         return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.editarUnaPizza(id,crearPizzaDto));
     }
 
-    @PutMapping("imagen/{id}")
+    @PutMapping("{id}/editarimagen")
     ResponseEntity<PizzaDto> editarImagenDePizza(@PathVariable(name = "id") int id , @RequestParam(name = "imagen") MultipartFile imagen){
         return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.editarImagenDepizza(id,imagen));
     }
@@ -50,12 +54,12 @@ public class PizzaController {
         return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.agreagarReceta(pizzaId,recetaId));
     }
 
-    @PostMapping("precio/{id}")
-    ResponseEntity<PizzaDto> modificarPrecioDePizza(@PathVariable(name = "id") int id , @RequestBody int precio){
-        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.modificarPrecioDePizza(id,precio));
+    @PutMapping("{id}/precio")
+    ResponseEntity<PizzaDto> modificarPrecioDePizza(@PathVariable(name = "id") int id , @RequestBody CrearPizzaDto crearPizzaDto){
+        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.modificarPrecioDePizza(id,crearPizzaDto));
     }
 
-    @DeleteMapping("eliminar/{id}")
+    @DeleteMapping("{id}/eliminar")
     ResponseEntity<PizzaDto> eliminarPizza (@PathVariable(name = "id") int id){
         return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.eliminarUnaPizza(id));
     }
