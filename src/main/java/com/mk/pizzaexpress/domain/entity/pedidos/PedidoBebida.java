@@ -1,7 +1,6 @@
 package com.mk.pizzaexpress.domain.entity.pedidos;
 
-import com.mk.pizzaexpress.domain.entity.Bebida;
-import com.mk.pizzaexpress.domain.entity.Pedido;
+import com.mk.pizzaexpress.domain.entity.productos.Bebida;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

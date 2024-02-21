@@ -3,7 +3,7 @@ package com.mk.pizzaexpress.bussines.mapper.implMapper;
 import com.mk.pizzaexpress.bussines.mapper.IMapper;
 import com.mk.pizzaexpress.domain.dto.ingrediente.CrearIngredienteDto;
 import com.mk.pizzaexpress.domain.dto.ingrediente.IngredienteDto;
-import com.mk.pizzaexpress.domain.entity.Ingrediente;
+import com.mk.pizzaexpress.domain.entity.productos.Ingrediente;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

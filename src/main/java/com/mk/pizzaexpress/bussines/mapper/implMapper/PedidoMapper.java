@@ -2,7 +2,7 @@ package com.mk.pizzaexpress.bussines.mapper.implMapper;
 
 import com.mk.pizzaexpress.bussines.mapper.IMapper;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
-import com.mk.pizzaexpress.domain.entity.Pedido;
+import com.mk.pizzaexpress.domain.entity.pedidos.Pedido;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

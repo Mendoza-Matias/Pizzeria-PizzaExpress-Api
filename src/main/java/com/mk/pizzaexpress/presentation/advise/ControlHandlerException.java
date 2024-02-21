@@ -1,8 +1,6 @@
 package com.mk.pizzaexpress.presentation.advise;
 
 import com.mk.pizzaexpress.domain.dto.generic.ExceptionErrorDto;
-import com.mk.pizzaexpress.domain.entity.Ingrediente;
-import com.mk.pizzaexpress.domain.entity.usuarios.Proveedor;
 import com.mk.pizzaexpress.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,28 +11,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ControlHandlerException {
 
+    @ExceptionHandler(value = UsuarioException.class)
+    @ResponseBody
+    public ResponseEntity<ExceptionErrorDto> handleUsuarioException(UsuarioException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionErrorDto(exception.getMessage()));
+    }
+
     @ExceptionHandler(value = NotFoundException.class)
     @ResponseBody
     public ResponseEntity<ExceptionErrorDto> handleNotFoundException(NotFoundException exception){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionErrorDto(exception.getMessage()));
-    }
-
-    @ExceptionHandler(value = AdministradorException.class)
-    @ResponseBody
-    public ResponseEntity<ExceptionErrorDto> handleAdministradorException(AdministradorException exception){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionErrorDto(exception.getMessage()));
-    }
-
-    @ExceptionHandler(value = ClienteException.class)
-    @ResponseBody
-    public ResponseEntity<ExceptionErrorDto> handleClienteException(ClienteException exception){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionErrorDto(exception.getMessage()));
-    }
-
-    @ExceptionHandler(value = ProveedorException.class)
-    @ResponseBody
-    public ResponseEntity<ExceptionErrorDto> handleProveedorException(ProveedorException exception){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionErrorDto(exception.getMessage()));
     }
 
     @ExceptionHandler(value = PedidoException.class)
@@ -53,12 +39,6 @@ public class ControlHandlerException {
     @ResponseBody
     public ResponseEntity<ExceptionErrorDto> handlePizzaException(PizzaException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionErrorDto(exception.getMessage()));
-    }
-
-    @ExceptionHandler(value = ImagenException.class)
-    @ResponseBody
-    public ResponseEntity<ExceptionErrorDto> handleImagenException(ClienteException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionErrorDto(exception.getMessage()));
     }
 
     @ExceptionHandler(value = RecetaException.class)

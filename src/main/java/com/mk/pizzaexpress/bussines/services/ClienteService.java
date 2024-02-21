@@ -1,24 +1,18 @@
 package com.mk.pizzaexpress.bussines.services;
 
+import com.mk.pizzaexpress.domain.dto.usuario.ClienteDto;
+import com.mk.pizzaexpress.domain.dto.usuario.CrearClienteDto;
 
-import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
-import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
+import java.util.List;
 
 public interface ClienteService {
 
-        ClienteDto buscarClientePorEmail(String email);
-        ClienteDto crearCliente(CrearClienteDto cliente);
-        ClienteDto modificarClave(String email , String clave , String claveNueva);
-        ClienteDto modificarDireccion(int id, String direccionNueva);
-        ClienteDto modificarLocalidad(int id , String localidadNueva );
-        ClienteDto eliminarCliente(String email , String clave);
-
-        boolean existeUsuarioConEmail(String email);
-
-        boolean existeUsuarioConClave(String clave);
-
-
-
-
+    List<ClienteDto> listarTodosLosClientes();
+    ClienteDto crearCliente(CrearClienteDto crearClienteDto);
+    ClienteDto modificarCliente(int id, ClienteDto clienteDto);
+    ClienteDto modificarClave(int id , String clave, CrearClienteDto crearClienteDto);
+    ClienteDto buscarClientePorId(int id);
+    ClienteDto eliminarCliente(int id);
+    ClienteDto esClaveCorrecta(int clave);
 
 }

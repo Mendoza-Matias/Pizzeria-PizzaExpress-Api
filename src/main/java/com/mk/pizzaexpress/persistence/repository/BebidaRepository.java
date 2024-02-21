@@ -1,6 +1,6 @@
 package com.mk.pizzaexpress.persistence.repository;
 
-import com.mk.pizzaexpress.domain.entity.Bebida;
+import com.mk.pizzaexpress.domain.entity.productos.Bebida;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

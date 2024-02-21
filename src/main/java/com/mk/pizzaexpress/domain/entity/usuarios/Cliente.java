@@ -1,35 +1,49 @@
 package com.mk.pizzaexpress.domain.entity.usuarios;
 
-import com.mk.pizzaexpress.domain.entity.Pedido;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.*;
+import com.mk.pizzaexpress.domain.entity.Direccion;
+import com.mk.pizzaexpress.domain.entity.enums.Rol;
+import com.mk.pizzaexpress.domain.entity.pedidos.Pedido;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "clientes")
 
-
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
-public class Cliente extends Usuario{
+@NoArgsConstructor
+public class Cliente {
 
-    @Column(name="telefono")
-    int telefono;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    @Column(name = "direccion")
-    String direccion;
+    @Column(name = "nombre")
+    private String nombre;
 
-    @Column(name = "localidad")
-    String localidad;
+    @Column(name = "email")
+    private String email;
 
+    @Column(name = "telefono")
+    private int telefono;
+
+    private Rol rol;
+
+    @Column(name = "clave")
+    private String clave;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_direccion")
+    private Direccion direccion;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos;
+    List<Pedido> pedidos;
 
 }

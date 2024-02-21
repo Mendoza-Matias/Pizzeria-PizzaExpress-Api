@@ -1,7 +1,8 @@
 package com.mk.pizzaexpress.domain.dto.pedido;
 
 
-import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
+
+import com.mk.pizzaexpress.domain.dto.usuario.UsuarioDto;
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PedidoDto {
 
-    private ClienteDto cliente;
+    private UsuarioDto usuarioDto;
 
     private int numeroDePedido;
 

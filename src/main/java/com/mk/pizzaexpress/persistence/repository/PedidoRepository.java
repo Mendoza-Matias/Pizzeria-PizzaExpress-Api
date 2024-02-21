@@ -1,8 +1,7 @@
 package com.mk.pizzaexpress.persistence.repository;
 
-import com.mk.pizzaexpress.domain.entity.Pedido;
+import com.mk.pizzaexpress.domain.entity.pedidos.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

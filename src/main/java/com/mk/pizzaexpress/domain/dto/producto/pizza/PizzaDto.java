@@ -23,4 +23,5 @@ public class PizzaDto {
     private Medida medida;
 
     private String urlImagen;
+
 }
