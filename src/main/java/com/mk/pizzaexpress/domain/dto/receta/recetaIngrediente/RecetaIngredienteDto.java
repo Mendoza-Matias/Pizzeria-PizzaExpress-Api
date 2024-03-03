@@ -13,7 +13,5 @@ public class RecetaIngredienteDto {
 
     private int ingredienteId;
 
-    private String nombre;
-
     private int cantidad;
 }

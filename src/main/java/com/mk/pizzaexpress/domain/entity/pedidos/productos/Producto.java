@@ -1,4 +1,4 @@
-package com.mk.pizzaexpress.domain.entity.productos;
+package com.mk.pizzaexpress.domain.entity.pedidos.productos;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

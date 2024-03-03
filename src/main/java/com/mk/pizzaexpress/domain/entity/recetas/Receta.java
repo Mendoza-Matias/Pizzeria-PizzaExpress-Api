@@ -1,6 +1,6 @@
 package com.mk.pizzaexpress.domain.entity.recetas;
 
-import com.mk.pizzaexpress.domain.entity.productos.Pizza;
+import com.mk.pizzaexpress.domain.entity.pedidos.productos.Pizza;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,5 @@
-package com.mk.pizzaexpress.domain.entity.productos;
+package com.mk.pizzaexpress.domain.entity.pedidos.productos;
 
-import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
 import com.mk.pizzaexpress.domain.entity.recetas.Receta;
 import com.mk.pizzaexpress.domain.entity.enums.Medida;
 import com.mk.pizzaexpress.domain.entity.enums.TipoDePizza;

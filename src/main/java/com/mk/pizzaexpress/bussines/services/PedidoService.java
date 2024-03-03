@@ -1,10 +1,6 @@
 package com.mk.pizzaexpress.bussines.services;
 
-import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoBebidaDto;
-import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoPizzaDto;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
-import com.mk.pizzaexpress.domain.entity.pedidos.PedidoBebida;
-import com.mk.pizzaexpress.domain.entity.pedidos.PedidoPizza;
 
 import java.util.List;
 
@@ -15,23 +11,15 @@ public interface PedidoService {
 
     PedidoDto obtenerPedidoPorNumeroDePedido(int numeroDePedido);
 
-    PedidoDto crearUnPedido(int clienteId , List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida);
+    PedidoDto CrearPedidoDePizza (int clienteId  , int pizzaId , int cantidad);
 
-    PedidoDto editarUnPedido (int clienteId , List<CrearPedidoPizzaDto> crearPedidoPizza , List<CrearPedidoBebidaDto> crearPedidoBebida);
+    PedidoDto CrearPedidoDeBebida (int clienteId  , int bebidaId , int cantidad);
 
-    PedidoDto modificarEstadoDePedido(int numeroDePedido);
+    PedidoDto modificarPedidoDePizza(int id, int pizzaId,int cantidad);
 
-    PedidoDto eliminarUnPedidoPorNumeroDePedido (int numeroDePedido);
+    PedidoDto modificarPedidoDeBebida(int id , int bebidaId , int cantidad);
 
-    //Retorna una lista de las pizzas pedidas y la cantidad
-    List<PedidoPizza> obtenerPizzasPedidas(List<CrearPedidoPizzaDto> crearPedidoPizza);
+    PedidoDto modificarEstadoDePedido(int id);
 
-    //Retorna una lista de las bebidas pedidas y su cantidad
-    List<PedidoBebida> obtenerBebidasPedidas (List<CrearPedidoBebidaDto> crearPedidoBebida);
-
-
-
-
-
-
+    PedidoDto eliminarUnPedido (int id);
 }

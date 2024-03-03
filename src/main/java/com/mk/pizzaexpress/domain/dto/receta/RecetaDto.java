@@ -11,9 +11,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class RecetaDto {
 
+    private int id;
+
     private String nombre;
 
     private PizzaDto pizza;
 
-    private RecetaIngredienteDto recetaIngredienteDto;
+    private RecetaIngredienteDto ingredientes;
 }

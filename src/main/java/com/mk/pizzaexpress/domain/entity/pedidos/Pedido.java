@@ -1,6 +1,8 @@
 package com.mk.pizzaexpress.domain.entity.pedidos;
 
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
+import com.mk.pizzaexpress.domain.entity.pedidos.productos.Bebida;
+import com.mk.pizzaexpress.domain.entity.pedidos.productos.Pizza;
 import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import com.mk.pizzaexpress.domain.entity.usuarios.Usuario;
 import jakarta.persistence.*;
@@ -21,20 +23,22 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "numero_pedido")
-    private int numeroDePedido;
-
-    @Column(name = "estado_pedido")
-    private EstadoPedido estadoPedido;
-
     @ManyToOne()
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido" , cascade = CascadeType.ALL)
-    private List<PedidoBebida> bebidas;
+    @ManyToOne
+    @JoinColumn(name = "pizza_id")
+    private Pizza pizza;
 
-    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
-    private List<PedidoPizza> pizzas;
+    @ManyToOne
+    @JoinColumn(name = "bebida_id")
+    private Bebida bebida;
+
+    @Column(name = "cantidad")
+    private int cantidad;
+
+    @Column(name = "estado_pedido")
+    private EstadoPedido estadoPedido;
 
 }
