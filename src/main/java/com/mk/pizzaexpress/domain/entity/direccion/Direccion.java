@@ -1,17 +1,17 @@
-package com.mk.pizzaexpress.domain.entity;
+package com.mk.pizzaexpress.domain.entity.direccion;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "direcciones")
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Direccion {
 
     @Id

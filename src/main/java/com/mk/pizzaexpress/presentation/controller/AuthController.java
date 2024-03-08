@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @Autowired
     private AuthServices authenticationService;
-
     @PreAuthorize("permitAll")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authenticationRequest){

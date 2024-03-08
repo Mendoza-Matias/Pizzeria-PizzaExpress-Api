@@ -1,14 +1,11 @@
 package com.mk.pizzaexpress.domain.entity.pedidos;
 
 import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
-import com.mk.pizzaexpress.domain.entity.pedidos.productos.Bebida;
-import com.mk.pizzaexpress.domain.entity.pedidos.productos.Pizza;
+import com.mk.pizzaexpress.domain.entity.productos.Bebida;
+import com.mk.pizzaexpress.domain.entity.productos.Pizza;
 import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
-import com.mk.pizzaexpress.domain.entity.usuarios.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Table(name="pedidos")
@@ -17,6 +14,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Pedido {
 
     @Id
@@ -35,10 +34,14 @@ public class Pedido {
     @JoinColumn(name = "bebida_id")
     private Bebida bebida;
 
-    @Column(name = "cantidad")
-    private int cantidad;
+    @Column(name = "cantidadPizza")
+    private int cantidadDePizzas;
+
+    @Column(name = "cantidadBebida")
+    private int cantidadDeBebidas;
 
     @Column(name = "estado_pedido")
+    @Enumerated(EnumType.STRING)
     private EstadoPedido estadoPedido;
 
 }

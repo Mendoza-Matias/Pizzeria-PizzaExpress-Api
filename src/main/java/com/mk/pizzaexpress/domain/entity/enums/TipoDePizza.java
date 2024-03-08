@@ -4,8 +4,8 @@ public enum TipoDePizza {
     MOZZARELLA,
     CALABRESA,
     NAPOLITANA,
-    CON_JAMON,
-    CON_HUEVO,
-    CON_CHOCLO,
+    DE_JAMON,
+    DE_HUEVO,
+    DE_CHOCLO,
     FUGGAZETA
 }

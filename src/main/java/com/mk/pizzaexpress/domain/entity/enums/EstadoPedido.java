@@ -2,6 +2,6 @@ package com.mk.pizzaexpress.domain.entity.enums;
 
 public enum EstadoPedido {
 
-    NOENTREGADO,
+    NO_ENTREGADO,
     ENTREGADO
 }

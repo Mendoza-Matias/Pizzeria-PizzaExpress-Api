@@ -23,44 +23,37 @@ public class BebidaController {
 
     @Autowired
     private ImagenesServiceImpl imagenesServiceImpl;
-
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR') || hasRole('ROLE_EMPLEADO') || hasRole(ROLE_CLIENTE)")
     @GetMapping
     ResponseEntity<List<BebidaDto>> listarTodasLasBebidas(){
         return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.listarTodasLasBebidas());
     }
 
-    @PreAuthorize("permitAll")
-    @GetMapping("{nombre}")
-    ResponseEntity<BebidaDto> buscarBebidaPorNombre (@PathVariable(name = "nombre") String nombre){
-        return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.buscarBebidaPorNombre(nombre));
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR') || hasRole('ROLE_EMPLEADO') || hasRole(ROLE_CLIENTE)")
+    @GetMapping("{marca}")
+    ResponseEntity<BebidaDto> obtenerBebidaPorMarca (@PathVariable(name = "marca") String marca){
+        return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.obtenerBebidaPorMarca(marca));
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @PostMapping
     ResponseEntity<BebidaDto> crearUnaBebida(@RequestBody CrearBebidaDto crearBebidaDto){
       return ResponseEntity.status(HttpStatus.CREATED).body(bebidaServiceImpl.crearUnaBebida(crearBebidaDto));
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @PostMapping("{id}/imagen")
     ResponseEntity<BebidaDto> agregarImagenDeBebida(@PathVariable(name = "id") int id , @RequestParam(name = "imagen")MultipartFile imagen){
         return ResponseEntity.status(HttpStatus.OK).body(imagenesServiceImpl.agregarImagenDeBebida(id,imagen));
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @PutMapping("{id}/precio")
     ResponseEntity<BebidaDto> modificarPrecioDeBebida(@PathVariable(name = "id") int id , @RequestBody int precio){
         return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.modificarPrecioDeBebida(id,precio));
     }
 
-    @PreAuthorize("permitAll")
-    @PutMapping("{id}/stock")
-    ResponseEntity<BebidaDto> modificarStockDeBebida(@PathVariable(name = "id") int id , @RequestBody int stock){
-        return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.actualizarStockDeBebida(id,stock));
-    }
-
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @DeleteMapping("{id}")
     ResponseEntity<BebidaDto> eliminarUnaBebida(@PathVariable(name = "id") int id) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(bebidaServiceImpl.eliminarUnaBebida(id));

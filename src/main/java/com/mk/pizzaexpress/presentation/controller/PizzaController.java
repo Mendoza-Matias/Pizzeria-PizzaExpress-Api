@@ -33,7 +33,7 @@ public class PizzaController {
     @PreAuthorize("permitAll")
     @GetMapping("{nombre}")
     ResponseEntity<PizzaDto> BuscarUnaPizzaPorNombre(@PathVariable(name = "nombre") String nombre){
-        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.buscarPizzaPorNombre(nombre));
+        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.obtenerUnaPizzaPorSuNombre(nombre));
     }
     @PostMapping
     ResponseEntity<PizzaDto> crearPizza(@RequestBody CrearPizzaDto crearPizzaDto){
@@ -46,15 +46,9 @@ public class PizzaController {
     }
 
     @PreAuthorize("permitAll")
-    @PostMapping("{pizzaId}/{recetaId}")
-    ResponseEntity<PizzaDto> agregarReceta(@PathVariable(name = "pizzaId")int pizzaId,@PathVariable(name = "recetaId") int recetaId){
-        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.agreagarReceta(pizzaId,recetaId));
-    }
-
-    @PreAuthorize("permitAll")
     @PutMapping("{id}/precio")
     ResponseEntity<PizzaDto> modificarPrecioDePizza(@PathVariable(name = "id") int id , @RequestBody int precio){
-        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.modificarPrecioDePizza(id,precio));
+        return ResponseEntity.status(HttpStatus.OK).body(pizzaServiceImpl.modificarElPrecioDeUnaPizza(id,precio));
     }
 
     @PreAuthorize("permitAll")

@@ -1,10 +1,11 @@
 package com.mk.pizzaexpress.bussines.services.servicesImpl;
 
 import com.mk.pizzaexpress.bussines.mapper.implMapper.ClienteMapper;
+import com.mk.pizzaexpress.bussines.mapper.implMapper.DireccionMapper;
 import com.mk.pizzaexpress.bussines.services.ClienteService;
-import com.mk.pizzaexpress.domain.dto.usuario.ClienteDto;
-import com.mk.pizzaexpress.domain.dto.usuario.CrearClienteDto;
-import com.mk.pizzaexpress.domain.dto.usuario.ModificarClienteDto;
+import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
+import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
+import com.mk.pizzaexpress.domain.dto.direccion.DireccionDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import com.mk.pizzaexpress.domain.exceptions.ClienteException;
@@ -25,59 +26,52 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteMapper clienteMapper;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private DireccionMapper direccionMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<ClienteDto> listarTodosLosClientes() {
         return clienteMapper.toDtoList(clienteRepository.findAll());
     }
     @Override
-    public ClienteDto crearCliente(CrearClienteDto crearClienteDto) {
-
-        if(existeEmail(crearClienteDto.getEmail())){
+    public ClienteDto obtenerClientePorId(int clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+        return clienteMapper.toDto(cliente);
+    }
+    @Override
+    public ClienteDto crearCliente(CrearClienteDto crearCliente) {
+        if(existeEmail(crearCliente.getEmail())){
             throw new ClienteException("Este email ya esta registrado");
         }
-        Cliente cliente = clienteMapper.deCrearUsuarioDtoAUsuario(crearClienteDto);
-        cliente.setNombre(crearClienteDto.getNombre());
-        cliente.setEmail(crearClienteDto.getEmail());
+        Cliente cliente = clienteMapper.deCrearUsuarioDtoAUsuario(crearCliente);
+        cliente.setNombre(crearCliente.getNombre());
+        cliente.setEmail(crearCliente.getEmail());
+        cliente.setClave(passwordEncoder.encode(crearCliente.getClave()));
+        cliente.setTelefono(crearCliente.getTelefono());
+        cliente.setDireccion(crearCliente.getDireccion());
         cliente.setRol(Rol.CLIENTE);
-        cliente.setClave(passwordEncoder.encode(crearClienteDto.getClave()));
-        cliente.setTelefono(crearClienteDto.getTelefono());
-        cliente.setDireccion(crearClienteDto.getDireccion());
-        //cliente.setPedidos();
-
         return clienteMapper.toDto(clienteRepository.save(cliente));
     }
-
     @Override
-    public ClienteDto modificarCliente(int id, ModificarClienteDto modificarClienteDto) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
-        cliente.setNombre(modificarClienteDto.getNombre());
-        cliente.setDireccion(modificarClienteDto.getDireccion());
-        cliente.setTelefono(modificarClienteDto.getTelefono());
+    public ClienteDto modificarDireccion(int clienteId, DireccionDto direccion) {
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+        cliente.setDireccion(direccionMapper.toEntity(direccion));
         return clienteMapper.toDto(clienteRepository.save(cliente));
     }
-
     @Override
-    public ClienteDto modificarClave(int id, String clave) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+    public ClienteDto modificarClave(int clienteId, String clave) {
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
         cliente.setClave(passwordEncoder.encode(clave));
         return clienteMapper.toDto(clienteRepository.save(cliente));
     }
-
     @Override
-    public ClienteDto buscarClientePorId(int id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+    public ClienteDto eliminarCliente(int clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
+        clienteRepository.deleteById(clienteId);
         return clienteMapper.toDto(cliente);
     }
-
-    @Override
-    public ClienteDto eliminarCliente(int id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
-        clienteRepository.deleteById(id);
-        return clienteMapper.toDto(cliente);
-    }
-
     @Override
     public boolean existeEmail(String email) {
         return clienteRepository.existsByEmail(email);

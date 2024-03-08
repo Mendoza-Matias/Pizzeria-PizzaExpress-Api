@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AdminRequest {
+
     private Rol rol;
+
     private int llaveMaestra;
 }

@@ -1,8 +1,8 @@
 package com.mk.pizzaexpress.presentation.controller;
 
 import com.mk.pizzaexpress.bussines.services.servicesImpl.PedidoServiceImpl;
+import com.mk.pizzaexpress.domain.dto.pedido.CrearPedidoDto;
 import com.mk.pizzaexpress.domain.dto.pedido.PedidoDto;
-import com.mk.pizzaexpress.domain.entity.enums.EstadoPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,46 +18,41 @@ public class PedidoController {
     @Autowired
     private PedidoServiceImpl pedidoServiceImpl;
 
-    @PreAuthorize("permitAll")
+
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR') || hasRole('ROLE_EMPLEADO')")
     @GetMapping
     ResponseEntity<List<PedidoDto>> listarTodosLosPedidos(){
         return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.listarTodosLosPedidos());
     }
 
-    @PreAuthorize("permitAll")
-    @PostMapping("{id}/{pizzaId}")
-    ResponseEntity<PedidoDto> crearPedidoDePizza(@PathVariable(name = "id") int id , @PathVariable(name = "pizzaId") int pizzaId , @RequestBody int cantidad){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServiceImpl.CrearPedidoDePizza(id,pizzaId,cantidad));
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR') || hasRole('ROLE_EMPLEADO')")
+    @GetMapping("{clienteId}")
+    ResponseEntity<List<PedidoDto>> obtenerPedidosPorClienteId(@PathVariable(name = "clienteId") int id){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.obtenerPedidosPorClienteId(id));
     }
 
-    @PreAuthorize("permitAll")
-    @PostMapping("pedidoPizza/{id}/{bebidaId}")
-     ResponseEntity<PedidoDto> crearPedidoDeBebida(@PathVariable(name = "id") int id , @PathVariable(name = "bebidaId") int bebidaId , @RequestBody int cantidad){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServiceImpl.CrearPedidoDePizza(id,bebidaId,cantidad));
+    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    @PostMapping("{clienteId}")
+    ResponseEntity<PedidoDto> crearPedidoDePizza(@PathVariable(name = "clienteId") int clienteId , @RequestBody CrearPedidoDto crearPedidoDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServiceImpl.crearPedido(clienteId,crearPedidoDto));
     }
 
-    @PreAuthorize("permitAll")
-    @PutMapping("modificarPedidoPizza/{id}/{pizzaId}")
-    ResponseEntity<PedidoDto> modificarPedidoDePizza(@PathVariable(name = "id") int id , @PathVariable(name = "pizzaId") int pizzaId , @RequestBody int cantidad){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServiceImpl.CrearPedidoDePizza(id,pizzaId,cantidad));
+    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    @PutMapping("{clienteId}/modificar")
+    ResponseEntity<PedidoDto> modificarPedido(@PathVariable(name = "clienteId") int clienteId,@RequestBody CrearPedidoDto crearPedidoDto){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.editarPedido(clienteId,crearPedidoDto));
     }
 
-    @PreAuthorize("permitAll")
-    @PutMapping("modificarPedidoBebida/{id}/{bebidaId}")
-    ResponseEntity<PedidoDto> modificarPedidoDeBebida(@PathVariable(name = "id") int id , @PathVariable(name = "bebidaId") int bebidaId , @RequestBody int cantidad){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServiceImpl.CrearPedidoDePizza(id,bebidaId,cantidad));
+    @PreAuthorize("hasRole('ROLE_ADMINISTRADOR') || hasRole('ROLE_EMPLEADO')")
+    @PutMapping("{clienteId}/estado")
+    ResponseEntity<PedidoDto> modificarEstadoDePedido(@PathVariable(name = "clienteId") int clienteId){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.modificarEstadoDePedido(clienteId));
     }
 
-    @PreAuthorize("permitAll")
-    @PutMapping("estadoPedido/{id}")
-    ResponseEntity<PedidoDto> modificarEstadoDePedido(@PathVariable(name = "id") int id ){
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.modificarEstadoDePedido(id));
-    }
-
-    @PreAuthorize("permitAll")
-    @DeleteMapping("eliminar/{id}")
-    ResponseEntity<PedidoDto> eliminarPedido(@PathVariable(name = "id") int id){
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.eliminarUnPedido(id));
+    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    @DeleteMapping("{clienteId}")
+    ResponseEntity<PedidoDto> eliminarUnPedido(@PathVariable(name = "clienteId") int clienteId){
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoServiceImpl.eliminarUnPedido(clienteId));
     }
 
 }

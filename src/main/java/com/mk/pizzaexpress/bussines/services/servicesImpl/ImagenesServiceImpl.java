@@ -6,8 +6,8 @@ import com.mk.pizzaexpress.bussines.mapper.implMapper.PizzaMapper;
 import com.mk.pizzaexpress.bussines.services.ImagenesServices;
 import com.mk.pizzaexpress.domain.dto.producto.bebida.BebidaDto;
 import com.mk.pizzaexpress.domain.dto.producto.pizza.PizzaDto;
-import com.mk.pizzaexpress.domain.entity.pedidos.productos.Bebida;
-import com.mk.pizzaexpress.domain.entity.pedidos.productos.Pizza;
+import com.mk.pizzaexpress.domain.entity.productos.Bebida;
+import com.mk.pizzaexpress.domain.entity.productos.Pizza;
 import com.mk.pizzaexpress.domain.exceptions.ImagenException;
 import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
@@ -47,11 +47,9 @@ public class ImagenesServiceImpl implements ImagenesServices{
             throw new ImagenException("No fue posible convertir almacenar la imagen");
         }
     }
-
     @Override
-    public PizzaDto agregarImagenDePizza(int id, MultipartFile imagen) {
-        Pizza pizza = pizzaRepository.findById(id).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
-
+    public PizzaDto agregarImagenDePizza(int pizzaId, MultipartFile imagen) {
+        Pizza pizza = pizzaRepository.findById(pizzaId).orElseThrow(()-> new NotFoundException("Pizza no encontrada"));
         try{
             if (imagen.isEmpty()){
                 throw new NotFoundException("No se encontro ninguna imagen");
@@ -65,11 +63,9 @@ public class ImagenesServiceImpl implements ImagenesServices{
             throw new ImagenException("Error al leer el contenido de la imagen");
         }
     }
-
     @Override
-    public BebidaDto agregarImagenDeBebida(int id, MultipartFile imagen) {
-        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
-
+    public BebidaDto agregarImagenDeBebida(int bebidaId, MultipartFile imagen) {
+        Bebida bebida = bebidaRepository.findById(bebidaId).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
         try{
             if (imagen.isEmpty()){
                 throw new NotFoundException("No se encontro ninguna imagen");
@@ -83,5 +79,4 @@ public class ImagenesServiceImpl implements ImagenesServices{
             throw new ImagenException("Error al leer el contenido de la imagen");
         }
     }
-
 }

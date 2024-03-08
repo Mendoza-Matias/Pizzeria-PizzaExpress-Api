@@ -15,11 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "usuarios")
 
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Usuario implements UserDetails{
 
     @Id

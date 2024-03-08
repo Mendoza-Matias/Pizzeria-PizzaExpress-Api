@@ -11,11 +11,10 @@ import java.util.List;
 public interface BebidaService {
 
     List<BebidaDto> listarTodasLasBebidas();
-    BebidaDto buscarBebidaPorNombre(String nombre);
+    BebidaDto obtenerBebidaPorMarca(String marca);
     BebidaDto crearUnaBebida(CrearBebidaDto crearBebidaDto);
-    BebidaDto modificarPrecioDeBebida(int id , int precio);
-    BebidaDto actualizarStockDeBebida(int id, int stock);
-    BebidaDto eliminarUnaBebida(int id) throws IOException;
+    BebidaDto modificarPrecioDeBebida(int bebidaId , int precio);
+    BebidaDto eliminarUnaBebida(int bebidaId) throws IOException;
     boolean existeBebidaDeMarca(String marca);
-    String obtenerPublicId(String urlImagen);
+    String obtenerPublicIdDeImagen(String urlImagen);
 }

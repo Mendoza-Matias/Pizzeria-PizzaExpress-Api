@@ -1,13 +1,10 @@
 package com.mk.pizzaexpress.domain.entity.usuarios;
 
-import com.mk.pizzaexpress.domain.entity.Direccion;
+import com.mk.pizzaexpress.domain.entity.direccion.Direccion;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import com.mk.pizzaexpress.domain.entity.pedidos.Pedido;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,8 +13,10 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Cliente {
 
     @Id
@@ -34,6 +33,8 @@ public class Cliente {
     @Column(name = "telefono")
     private int telefono;
 
+    @Column(name = "Rol")
+    @Enumerated(EnumType.STRING)
     private Rol rol;
 
     @Column(name = "clave")

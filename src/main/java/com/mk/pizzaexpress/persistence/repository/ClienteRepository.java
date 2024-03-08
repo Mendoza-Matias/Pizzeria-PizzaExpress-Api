@@ -4,6 +4,5 @@ import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClienteRepository extends JpaRepository<Cliente,Integer> {
-    boolean existsByClave(String clave);
     boolean existsByEmail(String email);
 }

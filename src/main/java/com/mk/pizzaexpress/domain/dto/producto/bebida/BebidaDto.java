@@ -16,8 +16,6 @@ public class BebidaDto {
 
     private TipoDeBebida tipoDeBebida;
 
-    private int stock;
-
     private float precio;
 
     private float litros;

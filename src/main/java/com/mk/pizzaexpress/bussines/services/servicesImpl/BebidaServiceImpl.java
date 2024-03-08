@@ -6,7 +6,7 @@ import com.mk.pizzaexpress.bussines.mapper.implMapper.BebidaMapper;
 import com.mk.pizzaexpress.bussines.services.BebidaService;
 import com.mk.pizzaexpress.domain.dto.producto.bebida.BebidaDto;
 import com.mk.pizzaexpress.domain.dto.producto.bebida.CrearBebidaDto;
-import com.mk.pizzaexpress.domain.entity.pedidos.productos.Bebida;
+import com.mk.pizzaexpress.domain.entity.productos.Bebida;
 import com.mk.pizzaexpress.domain.exceptions.BebidaException;
 import com.mk.pizzaexpress.domain.exceptions.NotFoundException;
 import com.mk.pizzaexpress.persistence.repository.BebidaRepository;
@@ -24,51 +24,42 @@ public class BebidaServiceImpl implements BebidaService {
     private BebidaMapper bebidaMapper;
     @Autowired
     private Cloudinary cloudinary;
+
     @Override
     public List<BebidaDto> listarTodasLasBebidas() {
         return bebidaMapper.toDtoList(bebidaRepository.findAll());
     }
     @Override
-    public BebidaDto buscarBebidaPorNombre(String nombre) {
-        Bebida bebida = bebidaRepository.findByNombre(nombre).orElseThrow(()-> new NotFoundException("No hay una bebida con ese nombre"));
+    public BebidaDto obtenerBebidaPorMarca(String marca) {
+        Bebida bebida = bebidaRepository.findByMarca(marca).orElseThrow(()-> new NotFoundException("No hay una bebida con ese nombre"));
         return bebidaMapper.toDto(bebida);
     }
     @Override
-    public BebidaDto crearUnaBebida(CrearBebidaDto crearBebidaDto) {
+    public BebidaDto crearUnaBebida(CrearBebidaDto crearBebida) {
 
-        if (existeBebidaDeMarca(crearBebidaDto.getMarca())){
+        if (existeBebidaDeMarca(crearBebida.getMarca())){
             throw new BebidaException("Ya existe esta marca de bebida");
         }
-
-        Bebida bebida = bebidaMapper.aBebidaDeCrearBebidaDto(crearBebidaDto);
-        bebida.setMarca(crearBebidaDto.getMarca());
-        bebida.setTipoDeBebida(crearBebidaDto.getTipoDeBebida());
-        bebida.setStock(crearBebidaDto.getStock());
-        bebida.setPrecio(crearBebidaDto.getPrecio());
-        bebida.setMedida(crearBebidaDto.getMedida());
-        bebida.setLitros(crearBebidaDto.getLitros());
-        //Imagenes
-
+        Bebida bebida = bebidaMapper.aBebidaDeCrearBebidaDto(crearBebida);
+        bebida.setMarca(crearBebida.getMarca());
+        bebida.setTipoDeBebida(crearBebida.getTipoDeBebida());
+        bebida.setPrecio(crearBebida.getPrecio());
+        bebida.setMedida(crearBebida.getMedida());
+        bebida.setLitros(crearBebida.getLitros());
 
         return bebidaMapper.toDto(bebidaRepository.save(bebida));
     }
     @Override
-    public BebidaDto modificarPrecioDeBebida(int id, int precio) {
-        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
+    public BebidaDto modificarPrecioDeBebida(int bebidaId, int precio) {
+        Bebida bebida = bebidaRepository.findById(bebidaId).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
         bebida.setPrecio(precio);
         return bebidaMapper.toDto(bebidaRepository.save(bebida));
     }
     @Override
-    public BebidaDto actualizarStockDeBebida(int id, int stock) {
-        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
-        bebida.setStock(bebida.getStock() + stock);
-        return bebidaMapper.toDto(bebidaRepository.save(bebida));
-    }
-    @Override
-    public BebidaDto eliminarUnaBebida(int id) throws IOException {
-        Bebida bebida = bebidaRepository.findById(id).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
-        cloudinary.uploader().destroy(obtenerPublicId(bebida.getUrlImagen()), ObjectUtils.emptyMap());
-        bebidaRepository.deleteById(id);
+    public BebidaDto eliminarUnaBebida(int bebidaId) throws IOException {
+        Bebida bebida = bebidaRepository.findById(bebidaId).orElseThrow(()-> new NotFoundException("Bebida no encontrada"));
+        cloudinary.uploader().destroy(obtenerPublicIdDeImagen(bebida.getUrlImagen()), ObjectUtils.emptyMap());
+        bebidaRepository.deleteById(bebidaId);
         return bebidaMapper.toDto(bebida);
     }
     @Override
@@ -76,7 +67,7 @@ public class BebidaServiceImpl implements BebidaService {
         return bebidaRepository.existsByMarca(marca);
     }
     @Override
-    public String obtenerPublicId(String urlImagen) {
+    public String obtenerPublicIdDeImagen(String urlImagen) {
         String[] publicId = urlImagen.split("/");
         return publicId[publicId.length - 1];
     }

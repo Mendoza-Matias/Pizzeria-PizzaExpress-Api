@@ -1,6 +1,6 @@
 package com.mk.pizzaexpress.domain.dto.producto.pizza;
 
-import com.mk.pizzaexpress.domain.dto.receta.RecetaDto;
+
 import com.mk.pizzaexpress.domain.entity.enums.Medida;
 import com.mk.pizzaexpress.domain.entity.enums.TipoDePizza;
 import lombok.AllArgsConstructor;
