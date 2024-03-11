@@ -1,16 +1,15 @@
 package com.mk.pizzaexpress.domain.dto.usuario;
 
-import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
-public class AdminRequest {
+public class ClienteClaveDto {
 
-    private Rol rol;
-
-    private String llaveMaestra;
+    String email;
+    String clave;
+    String nuevaClave;
 }

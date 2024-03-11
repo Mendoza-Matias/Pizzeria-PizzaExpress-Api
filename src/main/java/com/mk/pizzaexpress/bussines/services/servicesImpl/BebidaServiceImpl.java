@@ -31,7 +31,7 @@ public class BebidaServiceImpl implements BebidaService {
     }
     @Override
     public BebidaDto obtenerBebidaPorMarca(String marca) {
-        Bebida bebida = bebidaRepository.findByMarca(marca).orElseThrow(()-> new NotFoundException("No hay una bebida con ese nombre"));
+        Bebida bebida = bebidaRepository.findByMarca(marca).orElseThrow(()-> new NotFoundException("No hay bebida de esa marca"));
         return bebidaMapper.toDto(bebida);
     }
     @Override

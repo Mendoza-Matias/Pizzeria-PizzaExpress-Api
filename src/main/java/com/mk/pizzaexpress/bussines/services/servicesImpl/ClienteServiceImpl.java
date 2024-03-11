@@ -6,6 +6,7 @@ import com.mk.pizzaexpress.bussines.services.ClienteService;
 import com.mk.pizzaexpress.domain.dto.cliente.ClienteDto;
 import com.mk.pizzaexpress.domain.dto.cliente.CrearClienteDto;
 import com.mk.pizzaexpress.domain.dto.direccion.DireccionDto;
+import com.mk.pizzaexpress.domain.dto.usuario.ClienteClaveDto;
 import com.mk.pizzaexpress.domain.entity.enums.Rol;
 import com.mk.pizzaexpress.domain.entity.usuarios.Cliente;
 import com.mk.pizzaexpress.domain.exceptions.ClienteException;
@@ -42,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
     @Override
     public ClienteDto crearCliente(CrearClienteDto crearCliente) {
-        if(existeEmail(crearCliente.getEmail())){
+        if(existeClienteConEmail(crearCliente.getEmail())){
             throw new ClienteException("Este email ya esta registrado");
         }
         Cliente cliente = clienteMapper.deCrearUsuarioDtoAUsuario(crearCliente);
@@ -61,9 +62,14 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteMapper.toDto(clienteRepository.save(cliente));
     }
     @Override
-    public ClienteDto modificarClave(int clienteId, String clave) {
-        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(()-> new NotFoundException("Cliente no encontrado"));
-        cliente.setClave(passwordEncoder.encode(clave));
+    public ClienteDto modificarClave(ClienteClaveDto clienteClave) {
+        Cliente cliente = clienteRepository.findByEmail(clienteClave.getEmail()).orElseThrow(()-> new NotFoundException("Email no encontrado"));
+
+        if(passwordEncoder.matches(cliente.getClave(), clienteClave.getClave())){
+            throw new ClienteException("Clave incorrecta");
+        }
+        cliente.setClave(passwordEncoder.encode(clienteClave.getNuevaClave()));
+
         return clienteMapper.toDto(clienteRepository.save(cliente));
     }
     @Override
@@ -73,7 +79,7 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteMapper.toDto(cliente);
     }
     @Override
-    public boolean existeEmail(String email) {
+    public boolean existeClienteConEmail(String email) {
         return clienteRepository.existsByEmail(email);
     }
 }

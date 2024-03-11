@@ -20,13 +20,11 @@ public class CrearPizzaDto {
     @Size(max = 45)
     private String nombre;
 
-    @NotNull
     private TipoDePizza tipoDePizza;
 
     @Positive
     private int precio;
 
-    @NotNull
     private Medida medida;
 
 }
