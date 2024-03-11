@@ -30,15 +30,11 @@ public class Cliente {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "telefono")
-    private int telefono;
-
-    @Column(name = "Rol")
-    @Enumerated(EnumType.STRING)
-    private Rol rol;
-
     @Column(name = "clave")
     private String clave;
+
+    @Column(name = "telefono")
+    private int telefono;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_direccion")
@@ -47,4 +43,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     List<Pedido> pedidos;
 
+    @Column(name = "Rol")
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 }
